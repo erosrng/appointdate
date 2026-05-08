@@ -1,1 +1,348 @@
-/* You can add global styles to this file, and also import other style files */
+// 1. NÚCLEO DE ANGULAR MATERIAL
+@use '@angular/material' as mat;
+
+// 2. BOOTSTRAP (Orden estricto de importación para evitar "Undefined mixin")
+@use "bootstrap/scss/bootstrap";
+// 3. FUENTE MODERNA
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap');
+@import "@angular/material/prebuilt-themes/indigo-pink.css";
+
+// ---styles.scss---
+@import './variables.scss'; // Asegúrate de importar tus variables aquí
+
+// 1. FORZADO GLOBAL DE FONDO Y TEXTO BASE
+[data-theme='dark'] {
+  body {
+    background-color: var(--bg-main) !important;
+    color: var(--text-main) !important;
+  }
+
+  // Fuerza a todos los elementos a usar el color de texto principal por defecto
+  h1, h2, h3, h4, h5, h6, p, span, a, label, div, input, select, textarea {
+    &:not(.bg-purple-accent):not(.text-purple-gradient):not(.ap-navbar__link--active) {
+       color: var(--text-main) !important;
+    }
+  }
+}
+
+// 2. ARREGLO ESPECÍFICO PARA ANGULAR MATERIAL (Los parches blancos)
+// Estos componentes suelen crear sus propios contenedores que ignoran el body
+[data-theme='dark'] {
+  
+  // Fondo de Diálogos/Modales
+  .mat-mdc-dialog-container, 
+  .mat-dialog-container,
+  .mdc-dialog__content {
+    background-color: var(--bg-card) !important;
+    color: var(--text-main) !important;
+    border: 1px solid var(--border-color);
+  }
+
+  // Fondo de Menús Desplegables y Selects
+  .mat-mdc-menu-panel,
+  .mat-menu-panel,
+  .mat-mdc-select-panel,
+  .mat-select-panel {
+    background-color: var(--bg-card) !important;
+    border: 1px solid var(--border-color);
+    
+    // Opciones dentro del menú
+    .mat-mdc-option {
+      color: var(--text-main) !important;
+      &:hover { background-color: rgba(255,255,255,0.05); }
+      &.mat-mdc-option-active { background-color: rgba(255,255,255,0.1); }
+    }
+  }
+
+  // Tooltips
+  .mat-mdc-tooltip {
+    background-color: var(--navy-dark) !important;
+    color: var(--purple-accent) !important;
+    backdrop-filter: blur(4px);
+    border: 1px solid rgba(255,255,255,0.1);
+  }
+
+  // Inputs y Form Fields (MatFormField)
+  .mat-mdc-form-field {
+    // Label flotante y texto de pista
+    .mat-mdc-form-field-label,
+    .mat-mdc-floating-label,
+    .mat-mdc-form-field-hint {
+      color: var(--text-muted) !important;
+    }
+    
+    // Prefijos y Sufijos de iconos
+    .mat-mdc-form-field-icon-prefix,
+    .mat-mdc-form-field-icon-suffix {
+      color: var(--purple-accent) !important;
+    }
+  }
+
+  // Arreglo para la Navbar (que ya es oscura, pero para asegurar consistencia)
+  .ap-navbar {
+    background-color: var(--navy-dark) !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  }
+
+  // 1. PAGINACIÓN (Quitar el blanco)
+  .mat-mdc-paginator {
+    background-color: var(--bg-card) !important;
+    color: var(--text-main) !important;
+    
+    .mat-mdc-icon-button {
+      color: var(--text-main) !important;
+      &:disabled { opacity: 0.3; color: var(--text-muted) !important; }
+    }
+  }
+
+  // 2. BOTÓN "NUEVO ITEM" Y OTROS (Si quedan blancos)
+  .btn-primary-solid {
+    background-color: var(--purple-accent) !important;
+    color: white !important;
+    
+    mat-icon { color: white !important; }
+
+    &:hover {
+      background-color: #7c3aed !important; // Un poco más oscuro al pasar el mouse
+    }
+  }
+
+  // 3. FIX PARA EL MODAL (Asegurar fondo sólido)
+  .cdk-overlay-pane {
+    .mat-mdc-dialog-container .mdc-dialog__content {
+       background-color: var(--bg-card) !important;
+       color: var(--text-main) !important;
+    }
+    
+    .ap-modal-header {
+      background-color: var(--navy-dark) !important;
+      color: white !important;
+    }
+    
+    .ap-modal-footer {
+      background-color: var(--bg-main) !important;
+      border-top: 1px solid var(--border-color) !important;
+    }
+  }
+
+  // 4. SELECTS Y MENÚS
+  .mat-mdc-select-panel, .mat-mdc-menu-panel {
+    background-color: var(--bg-card) !important;
+    border: 1px solid var(--border-color);
+    
+    .mat-mdc-option {
+      color: var(--text-main) !important;
+      &:hover { background: rgba(255,255,255,0.05); }
+    }
+  }
+
+
+}
+
+// 3. ARREGLO DE DESCUADRES DE TARJETAS (bg-white)
+// Buscamos cualquier elemento con .bg-white y lo forzamos a var(--bg-card)
+[data-theme='dark'] {
+  .bg-white,
+  .card,
+  .ap-service-item,
+  .ap-benefit-card {
+    background-color: var(--bg-card) !important;
+    border-color: var(--border-color) !important;
+  }
+}
+
+/* --- FIX ESPECÍFICO PARA CAMPOS DE HORA EN MODO OSCURO --- */
+[data-theme='dark'] {
+  
+  // Ajuste del contenedor de disponibilidad para que no sea blanco
+  .bg-light-subtle {
+    background-color: rgba(30, 41, 59, 0.5) !important; // Navy oscuro con transparencia
+    border: 1px dashed #334155 !important; // Borde sutil
+    
+    .text-primary {
+      color: var(--purple-accent) !important; // Asegura que el icono de reloj resalte
+    }
+  }
+
+  // Estilo para los inputs nativos de tipo TIME
+  input[type="time"] {
+    color: white !important;
+    color-scheme: dark; // Esto le dice al navegador que use el picker oscuro nativo
+    background: transparent;
+    border: none;
+    
+    // Si el navegador no soporta color-scheme, forzamos el color del texto
+    &::-webkit-calendar-picker-indicator {
+      filter: invert(1); // Hace que el icono del reloj del navegador sea blanco
+      cursor: pointer;
+    }
+  }
+
+  // Asegura que los labels de Material no se pierdan
+  .mat-mdc-form-field-label {
+    color: #94a3b8 !important;
+  }
+}
+
+/* --- INDICADORES VISUALES MODO OSCURO --- */
+[data-theme='dark'] {
+  // Badges Categoría y Estatus
+  .ap-badge {
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    
+    &.producto { background: #0c4a6e !important; color: #7dd3fc !important; }
+    &.servicio { background: #4c1d95 !important; color: #ddd6fe !important; }
+    
+    &.activo { background: #064e3b !important; color: #6ee7b7 !important; }
+    &.inactivo { background: #7f1d1d !important; color: #fca5a5 !important; }
+    &.agotado { background: #78350f !important; color: #fcd34d !important; }
+  }
+
+  // Stock Dots (Brillo sutil para que resalten)
+  .stock-dot {
+    box-shadow: 0 0 8px rgba(0,0,0,0.5);
+    &.high { background: #10b981 !important; box-shadow: 0 0 5px rgba(16, 185, 129, 0.4); }
+    &.low { background: #f59e0b !important; box-shadow: 0 0 5px rgba(245, 158, 11, 0.4); }
+    &.empty { background: #ef4444 !important; box-shadow: 0 0 5px rgba(239, 68, 68, 0.4); }
+  }
+
+  // Precios
+  .price-tag {
+    color: #34d399 !important; // Esmeralda brillante para modo oscuro
+  }
+
+  // Código SKU (El badge gris pequeño)
+  .badge.bg-light {
+    background-color: #1e293b !important;
+    color: #94a3b8 !important;
+    border-color: #334155 !important;
+  }
+}
+
+/* --- FIX PARA MAT-SORT ICON (FLECHAS) --- */
+::ng-deep .mat-sort-header-arrow {
+  color: var(--purple-accent) !important; // Hace que la flecha de ordenamiento se vea
+}
+
+// Estilo Base (Modo Claro por defecto)
+.swal2-popup {
+  font-family: 'Inter', 'Segoe UI', Roboto, sans-serif !important;
+  border-radius: 1.25rem !important;
+  padding: 2rem !important;
+  background: var(--swal-bg-light) !important;
+  color: var(--swal-text-light) !important;
+}
+
+// Ajuste para Modo Oscuro (Basado en clase .dark-mode o media query)
+// Si tu app usa una clase en el body, usa: body.dark-theme .swal2-popup
+@media (prefers-color-scheme: dark) {
+  .swal2-popup {
+    background: var(--swal-bg-dark) !important;
+    color: var(--swal-text-dark) !important;
+    border: 1px solid var(--swal-border-dark) !important;
+  }
+
+  .swal2-title, .swal2-html-container {
+    color: var(--swal-text-dark) !important;
+  }
+
+  .swal2-footer {
+    border-top: 1px solid var(--swal-border-dark) !important;
+    color: #94a3b8 !important;
+  }
+}
+
+/* Botones Personalizados para que coincidan con tu UI */
+.swal2-confirm {
+  background-color: #059669 !important; // Esmeralda corporativo
+  border-radius: 50px !important;
+  padding: 0.6rem 2rem !important;
+  font-weight: 600 !important;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-size: 0.85rem !important;
+}
+
+.swal2-cancel {
+  background-color: transparent !important;
+  color: #ef4444 !important; // Rojo para cancelar
+  border: 1px solid #ef4444 !important;
+  border-radius: 50px !important;
+  padding: 0.6rem 2rem !important;
+  font-weight: 600 !important;
+  text-transform: uppercase;
+  font-size: 0.85rem !important;
+  
+  &:hover {
+    background-color: rgba(239, 68, 68, 0.1) !important;
+  }
+}
+
+/* Ajuste de los Iconos */
+.swal2-icon.swal2-success {
+  border-color: #10b981 !important;
+  .swal2-success-ring { border-color: rgba(16, 185, 129, 0.2) !important; }
+  [class^='swal2-success-line'] { background-color: #10b981 !important; }
+}
+
+/* Estilo para Toast (Notificaciones rápidas abajo) */
+.swal2-toast {
+  background: var(--swal-bg-dark) !important;
+  color: white !important;
+  border-radius: 12px !important;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3) !important;
+}
+
+/* Clase maestra para botones de acción principal */
+.btn-auth-submit, .btn-primary-solid {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  border-radius: 12px !important; /* Un poco más cuadrado para look corporativo */
+  letter-spacing: 0.5px;
+  font-weight: 600 !important;
+  height: 48px; /* Altura estándar para botones principales */
+  
+  // Estado Activo
+  &:not(:disabled) {
+    background-color: var(--ap-primary) !important;
+    color: white !important;
+    
+    &:hover {
+      background-color: var(--ap-primary-hover) !important;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(109, 40, 217, 0.25) !important;
+    }
+
+    &:active {
+      transform: translateY(0);
+    }
+  }
+
+  // ESTADO DESHABILITADO (Compatible con Modo Claro y Oscuro)
+  &:disabled {
+    background-color: var(--ap-disabled-bg) !important; 
+    color: var(--ap-disabled-text) !important;
+    cursor: not-allowed !important;
+    border: 1px solid rgba(255, 255, 255, 0.05) !important;
+
+    .mat-icon {
+      color: var(--ap-disabled-text) !important;
+      opacity: 0.6;
+    }
+
+    // Para que el spinner también se vea atenuado si está deshabilitado
+    mat-spinner {
+      opacity: 0.5;
+    }
+  }
+}
+
+/* Spinner global para botones */
+.custom-spinner-white circle {
+  stroke: white !important;
+}
+
+/* Ajuste para que los botones de Material hereden bien el texto */
+.mat-mdc-unelevated-button .mat-mdc-button-touch-target,
+.mat-mdc-flat-button .mat-mdc-button-touch-target {
+  display: none; /* Limpia espacio extra en botones densos */
+}

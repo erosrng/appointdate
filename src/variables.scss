@@ -1,0 +1,39 @@
+// Solo definiciones, nada de CSS real aquí
+$navy-dark: #0f172a;
+$purple-accent: #8b5cf6;
+$transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+$sidebar-width: 280px;
+$sidebar-collapsed-width: 85px;
+
+:root {
+  // TEMA CLARO (Default)
+  --bg-main: #f1f5f9;
+  --bg-card: #ffffff;
+  --text-main: #0f172a; // Navy Dark
+  --text-muted: #64748b;
+  --border-color: rgba(0, 0, 0, 0.05); // Borde sutil claro
+  --navy-dark: #0f172a;
+  --purple-accent: #8b5cf6;
+  --purple-light: #f5f3ff;
+
+  --swal-bg-light: #ffffff;
+  --swal-bg-dark: #1e293b; // Navy Corporativo
+  --swal-text-light: #1e293b;
+  --swal-text-dark: #f8fafc;
+  --swal-border-dark: #334155;
+}
+
+[data-theme='dark'] {
+  // TEMA OSCURO
+  --bg-main: #020617;   
+  --bg-card: #0f172a;   // Tus cards serán de este Navy
+  --text-main: #f1f5f9; 
+  --text-muted: #94a3b8;
+  --border-color: rgba(255, 255, 255, 0.1); // Borde sutil oscuro
+  --navy-dark: #1e293b; 
+  --purple-accent: #a78bfa; // Un morado más vivo para resaltar
+  --purple-light: rgba(139, 92, 246, 0.1);
+}
+
+// Definición de variables SASS
+$transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);

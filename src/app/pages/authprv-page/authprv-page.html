@@ -1,0 +1,304 @@
+<main class="ap-auth-container" data-reveal>
+
+  <div class="ap-auth-card shadow-2xl">
+    <div class="row g-0">
+      <div class="col-lg-6 d-none d-lg-block ap-auth-visual">
+        <div class="ap-auth-visual__overlay">
+          <div class="p-5">
+            <span class="badge mb-3" style="background: var(--purple-accent); letter-spacing: 1px;">VENEZUELA 2026</span>
+            <h2 class="display-4 fw-black text-white">Únete a la red <span style="color: var(--purple-accent)">elite</span> de servicios.</h2>
+            <p class="text-white-50 fs-5">La infraestructura digital más avanzada para gestionar tu tiempo y clientes profesionalmente.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-6 p-4 p-md-5 bg-white">
+        <div class="ap-auth-header mb-4">
+          <h1 class="h2 fw-black m-0">Apoint<span>.</span></h1>
+          <p class="small">Accede a tu panel administrativo</p>
+        </div>
+
+        <mat-tab-group (selectedIndexChange)="onTabChange($event)" class="ap-auth-tabs">
+          
+          <mat-tab label="Iniciar Sesión">
+            <form class="mt-4" (ngSubmit)="onLogin()" #loginForm="ngForm">
+              
+              <mat-form-field appearance="outline" class="w-100 mb-2">
+                <mat-label>Usuario o Correo</mat-label>
+                <input matInput type="text" [(ngModel)]="userData.user" name="user" [readonly]="isLoading" required>
+                <mat-icon matPrefix style="color: var(--purple-accent); margin-right: 8px;">person</mat-icon>
+              </mat-form-field>
+
+              <mat-form-field appearance="outline" class="w-100 mb-3">
+                <mat-label>Contraseña</mat-label>
+                <input matInput [type]="hidePassword ? 'password' : 'text'" [(ngModel)]="userData.password" name="password" [readonly]="isLoading" required>
+                <mat-icon matPrefix style="color: var(--purple-accent); margin-right: 8px;">lock</mat-icon>
+                <button type="button" mat-icon-button matSuffix (click)="hidePassword = !hidePassword" [disabled]="isLoading">
+                  <mat-icon>{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
+                </button>
+              </mat-form-field>
+
+              <div *ngIf="errorMessage" class="alert alert-danger d-flex align-items-center p-3 mb-4 border-0 rounded-4 small shadow-sm" style="background-color: #fef2f2; color: #991b1b;">
+                <mat-icon class="me-2" style="font-size: 20px; width: 20px; height: 20px;">error</mat-icon>
+                <span class="fw-bold">{{ errorMessage }}</span>
+              </div>
+
+              <button mat-flat-button 
+                      class="btn-auth-submit w-100 py-4 shadow-sm" 
+                      type="submit" 
+                      [disabled]="isLoading || !userData.user || !userData.password">
+                
+                <div class="d-flex align-items-center justify-content-center">
+                  <ng-container *ngIf="!isLoading">
+                    <mat-icon class="me-2 text-white">login</mat-icon>
+                    <span class="fw-bold tracking-wider">ENTRAR AL PANEL</span>
+                  </ng-container>
+
+                  <ng-container *ngIf="isLoading">
+                    <mat-spinner diameter="20" class="me-3 custom-spinner-white"></mat-spinner>
+                    <span class="fw-bold opacity-75">VALIDANDO ACCESO...</span>
+                  </ng-container>
+                </div>
+              </button>
+
+              <div class="text-center mt-4">
+                <a href="javascript:void(0)" class="text-decoration-none small fw-bold" style="color: var(--purple-accent)">
+                  ¿Problemas para acceder? Contactar soporte
+                </a>
+              </div>
+            </form>
+          </mat-tab>
+
+          <!-- <mat-tab label="Registrarme">
+            <form class="mt-4" (ngSubmit)="onRegister()">
+              
+              <div class="row g-2 mb-3">
+                <div class="col-4">
+                  <label class="form-label small fw-bold text-muted">Documento</label>
+                  <select class="form-select border-0 bg-light" [(ngModel)]="registerData.idType" name="idType">
+                    <option *ngFor="let t of tipoDocumento" [value]="t">{{t}}</option>
+                  </select>
+                </div>
+                <div class="col-8">
+                  <label class="form-label small fw-bold text-muted">RIF / Cédula</label>
+                  <input type="text" class="form-control border-0 bg-light" [(ngModel)]="registerData.rif" name="regRif" placeholder="J-12345678-9">
+                </div>
+              </div>
+
+              <div class="mb-3">
+                <label class="form-label small fw-bold text-muted">Nombre Fiscal o Comercial</label>
+                <input type="text" class="form-control border-0 bg-light" [(ngModel)]="registerData.name" name="regName">
+              </div>
+
+              <div class="row g-2 mb-3">
+                <div class="col-4">
+                  <label class="form-label small fw-bold text-muted">Prefijo</label>
+                  <select class="form-select border-0 bg-light" [(ngModel)]="registerData.phonePrefix" name="pPrefix">
+                    <option *ngFor="let p of prefijos" [value]="p">{{p}}</option>
+                  </select>
+                </div>
+                <div class="col-8">
+                  <label class="form-label small fw-bold text-muted">Número Telefónico</label>
+                  <input type="text" class="form-control border-0 bg-light" [(ngModel)]="registerData.phoneNumber" name="pNumber">
+                </div>
+              </div>
+
+              <div class="row g-2 mb-3">
+                <div class="col-6">
+                  <label class="form-label small fw-bold text-muted">Estado</label>
+                  <select class="form-select border-0 bg-light" [(ngModel)]="registerData.estado" name="regEstado">
+                    <option *ngFor="let e of listaEstados" [value]="e.codigo">{{ e.entidad }}</option>
+                  </select>
+                </div>
+                <div class="col-6">
+                  <label class="form-label small fw-bold text-muted">Ciudad</label>
+                  <input type="text" class="form-control border-0 bg-light" [(ngModel)]="registerData.ciudad" name="regCiudad">
+                </div>
+              </div>
+
+              <div class="mb-3">
+                <label class="form-label small fw-bold text-muted">Seleccione sus Rubros</label>
+                <mat-form-field appearance="outline" class="w-100 mt-1">
+                  <mat-select [(ngModel)]="registerData.businessType" name="regType" multiple>
+                    <mat-select-trigger>
+                      <div class="d-flex flex-wrap gap-1">
+                        <span *ngFor="let nombre of getNombresSeleccionados()" 
+                              class="badge px-2 py-1 rounded-pill" 
+                              style="background: var(--purple-light); color: var(--purple-accent); font-weight: 600;">
+                          {{ nombre }}
+                        </span>
+                      </div>
+                    </mat-select-trigger>
+                    <mat-option *ngFor="let cat of filterRubroOptions" [value]="cat.grupo">{{cat.gr_desc}}</mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+
+              <div class="p-3 rounded-4 mb-4" style="background: #f8fafc; border: 1px dashed #cbd5e1;">
+                <p class="small fw-bold mb-3" style="color: var(--navy-dark)">CREDENCIALES DE ACCESO</p>
+                
+                <mat-form-field appearance="outline" class="w-100 mb-1">
+                  <mat-label>ID de Usuario</mat-label>
+                  <input matInput [(ngModel)]="registerData.uscodigo" name="regUsCodigo" required>
+                  <mat-icon matPrefix class="me-2" style="color: var(--purple-accent)">account_circle</mat-icon>
+                </mat-form-field>
+
+                <div class="mb-3 mt-2">
+                  <label class="form-label small fw-bold text-muted">Email Principal</label>
+                  <input type="email" class="form-control border-0 bg-white" [(ngModel)]="registerData.email" name="regEmail">
+                </div>
+
+                <div class="row g-2">
+                  <div class="col-6">
+                    <mat-form-field appearance="outline" class="w-100">
+                      <mat-label>Contraseña</mat-label>
+                      <input matInput [type]="hidePassword ? 'password' : 'text'" [(ngModel)]="registerData.password" name="regPass">
+                    </mat-form-field>
+                  </div>
+                  <div class="col-6">
+                    <mat-form-field appearance="outline" class="w-100">
+                      <mat-label>Confirmar</mat-label>
+                      <input matInput [type]="hidePassword ? 'password' : 'text'" [(ngModel)]="registerData.confirmPassword" name="regPassConf">
+                    </mat-form-field>
+                  </div>
+                </div>
+              </div>
+
+              <button mat-flat-button class="btn-auth-submit w-100 py-4" type="submit">
+                COMPLETAR REGISTRO PROFESIONAL
+              </button>
+            </form>
+          </mat-tab> -->
+          <mat-tab label="Registrarme">
+            <form class="mt-4" (ngSubmit)="onRegister()" #registerForm="ngForm">
+              
+              <div class="row g-2">
+                <div class="col-4">
+                  <mat-form-field appearance="outline" class="w-100">
+                    <mat-label>Tipo</mat-label>
+                    <mat-select [(ngModel)]="registerData.idType" name="idType" required>
+                      <mat-option *ngFor="let t of tipoDocumento" [value]="t">{{t}}</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+                <div class="col-8">
+                  <mat-form-field appearance="outline" class="w-100">
+                    <mat-label>RIF / Cédula</mat-label>
+                    <input matInput [(ngModel)]="registerData.rif" name="regRif" placeholder="12345678-9" required>
+                    <mat-icon matPrefix class="me-2" style="color: var(--purple-accent)">fingerprint</mat-icon>
+                  </mat-form-field>
+                </div>
+              </div>
+
+              <mat-form-field appearance="outline" class="w-100">
+                <mat-label>Nombre Fiscal o Comercial</mat-label>
+                <input matInput [(ngModel)]="registerData.name" name="regName" required>
+                <mat-icon matPrefix class="me-2" style="color: var(--purple-accent)">business</mat-icon>
+              </mat-form-field>
+
+              <div class="row g-2">
+                <div class="col-4">
+                  <mat-form-field appearance="outline" class="w-100">
+                    <mat-label>Prefijo</mat-label>
+                    <mat-select [(ngModel)]="registerData.phonePrefix" name="pPrefix" required>
+                      <mat-option *ngFor="let p of prefijos" [value]="p">{{p}}</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+                <div class="col-8">
+                  <mat-form-field appearance="outline" class="w-100">
+                    <mat-label>Número Telefónico</mat-label>
+                    <input matInput [(ngModel)]="registerData.phoneNumber" name="pNumber" required>
+                    <mat-icon matPrefix class="me-2" style="color: var(--purple-accent)">smartphone</mat-icon>
+                  </mat-form-field>
+                </div>
+              </div>
+
+              <div class="row g-2">
+                <div class="col-6">
+                  <mat-form-field appearance="outline" class="w-100">
+                    <mat-label>Estado</mat-label>
+                    <mat-select [(ngModel)]="registerData.estado" name="regEstado" required>
+                      <mat-option *ngFor="let e of listaEstados" [value]="e.codigo">{{ e.entidad }}</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+                <div class="col-6">
+                  <mat-form-field appearance="outline" class="w-100">
+                    <mat-label>Ciudad</mat-label>
+                    <input matInput [(ngModel)]="registerData.ciudad" name="regCiudad" required>
+                    <mat-icon matPrefix class="me-2" style="color: var(--purple-accent)">location_city</mat-icon>
+                  </mat-form-field>
+                </div>
+              </div>
+
+              <mat-form-field appearance="outline" class="w-100">
+                <mat-label>Seleccione sus Rubros Profesionales</mat-label>
+                <mat-select [(ngModel)]="registerData.businessType" name="regType" multiple required>
+                  <mat-select-trigger>
+                    <div class="d-flex flex-wrap gap-1">
+                      <span *ngFor="let nombre of getNombresSeleccionados()" 
+                            class="badge px-2 py-1 rounded-pill" 
+                            style="background: var(--purple-light); color: var(--purple-accent); font-weight: 600;">
+                        {{ nombre }}
+                      </span>
+                    </div>
+                  </mat-select-trigger>
+                  <mat-option *ngFor="let cat of filterRubroOptions" [value]="cat.grupo">{{cat.gr_desc}}</mat-option>
+                </mat-select>
+              </mat-form-field>
+
+              <div class="p-3 rounded-4 mb-4 auth-credentials-box">
+                <p class="small fw-bold mb-3 section-title">CREDENCIALES DE ACCESO</p>
+                
+                <mat-form-field appearance="outline" class="w-100 mb-1">
+                  <mat-label>ID de Usuario</mat-label>
+                  <input matInput [(ngModel)]="registerData.uscodigo" name="regUsCodigo" required>
+                  <mat-icon matPrefix class="me-2" style="color: var(--purple-accent)">account_circle</mat-icon>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline" class="w-100 mb-1">
+                  <mat-label>Email Principal</mat-label>
+                  <input matInput type="email" [(ngModel)]="registerData.email" name="regEmail" required>
+                  <mat-icon matPrefix class="me-2" style="color: var(--purple-accent)">email</mat-icon>
+                </mat-form-field>
+
+                <div class="row g-2">
+                  <div class="col-6">
+                    <mat-form-field appearance="outline" class="w-100">
+                      <mat-label>Contraseña</mat-label>
+                      <input matInput [type]="hidePassword ? 'password' : 'text'" [(ngModel)]="registerData.password" name="regPass" required>
+                    </mat-form-field>
+                  </div>
+                  <div class="col-6">
+                    <mat-form-field appearance="outline" class="w-100">
+                      <mat-label>Confirmar</mat-label>
+                      <input matInput [type]="hidePassword ? 'password' : 'text'" [(ngModel)]="registerData.confirmPassword" name="regPassConf" required>
+                    </mat-form-field>
+                  </div>
+                </div>
+              </div>
+
+              <button mat-flat-button 
+                      class="btn-auth-submit w-100 py-4 shadow-sm" 
+                      type="submit" 
+                      [disabled]="!registerForm.valid || isLoading"
+                      style="margin-top: 20px; border-radius: 12px;">
+                
+                <ng-container *ngIf="!isLoading">
+                  <mat-icon class="me-2">how_to_reg</mat-icon>
+                  COMPLETAR REGISTRO PROFESIONAL
+                </ng-container>
+
+                <ng-container *ngIf="isLoading">
+                  <mat-spinner diameter="24" class="me-3 custom-spinner-white"></mat-spinner>
+                  <span>PROCESANDO REGISTRO...</span>
+                </ng-container>
+              </button>
+            </form>
+          </mat-tab>
+        </mat-tab-group>
+      </div>
+    </div>
+  </div>
+</main>

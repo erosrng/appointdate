@@ -1,0 +1,177 @@
+@import '../../../variables.scss';
+.ap-main-container {
+  flex-grow: 1; // Permite que ocupe todo el espacio restante
+  display: flex;
+  flex-direction: column;
+  min-width: 0; // Crucial para que las tablas de Angular Material no rompan el layout
+  background-color: var(--bg-main);
+}
+
+.ap-dashboard {
+  display: flex;
+  min-height: 100vh;
+  transition: $transition;
+
+  // --- SIDEBAR ESTILIZADA ---
+  .ap-sidebar {
+    width: $sidebar-width;
+    background: var(--navy-dark);
+    height: 100vh;
+    position: sticky;
+    top: 0;
+    display: flex;
+    flex-direction: column;
+    z-index: 1000;
+    transition: $transition;
+    box-shadow: 4px 0 15px rgba(0, 0, 0, 0.1);
+
+    .ap-sidebar__logo {
+      padding: 1.5rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      
+      .logo-icon {
+        background: linear-gradient(135deg, var(--purple-accent), #6d28d9);
+        color: var(--text-muted);
+        min-width: 42px;
+        height: 42px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 10px;
+        font-weight: 800;
+        box-shadow: 0 4px 10px rgba(139, 92, 246, 0.3);
+      }
+
+      .logo-text h2 {
+        color: var(--text-muted);
+        font-size: 1.25rem;
+        span { color: var(--purple-accent); }
+      }
+    }
+
+    // Links de Navegación
+    .ap-sidebar__nav {
+      padding: 1rem 0;
+
+      .nav-section-label {
+        color: rgba(255, 255, 255, 0.3);
+        font-size: 0.65rem;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: 1.5px;
+        padding: 0 1.5rem;
+        margin-bottom: 0.5rem;
+      }
+
+      .ap-nav-link {
+        margin: 4px 12px;
+        border-radius: 8px;
+        padding: 12px 16px;
+        color: #dde3ec;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        text-decoration: none;
+        transition: all 0.2s ease;
+
+        mat-icon { font-size: 20px; }
+
+        &:hover {
+          background: rgba(255, 255, 255, 0.05);
+          color: #dde3ec;
+        }
+
+        &.active {
+          background: var(--purple-accent);
+          color: #dde3ec;
+          box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);
+        }
+      }
+    }
+
+    .ap-sidebar__footer {
+      margin-top: auto;
+      padding: 1.5rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.05);
+
+      .btn-logout {
+        background: rgba(244, 63, 94, 0.1);
+        border: 1px solid rgba(244, 63, 94, 0.2);
+        color: #fb7185;
+        padding: 10px;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        transition: 0.3s;
+        
+        &:hover {
+          background: #f43f5e;
+          color: var(--text-muted);
+        }
+      }
+    }
+  }
+
+  // --- ESTADO COLAPSADO ---
+  &.sidebar-collapsed {
+    .ap-sidebar {
+      width: $sidebar-collapsed-width;
+
+      .logo-text, .nav-section-label, span {
+        display: none;
+      }
+
+      .ap-sidebar__logo {
+        justify-content: center;
+        padding: 1.5rem 0;
+      }
+
+      .ap-nav-link {
+        justify-content: center;
+        margin: 8px auto;
+        width: 50px;
+        padding: 12px 0;
+        
+        mat-icon { margin: 0; }
+      }
+
+      .ap-sidebar__footer {
+        padding: 1rem;
+        .btn-logout {
+          width: 50px;
+          height: 50px;
+          padding: 0;
+          margin: 0 auto;
+        }
+      }
+    }
+  }
+}
+
+// Topbar Header
+.ap-topbar {
+  background: var(--bg-main);
+  height: 75px;
+  border-bottom: 1px solid #e2e8f0;
+  
+  .toggle-btn {
+    background: var(--purple-light);
+    color: var(--purple-accent);
+    border-radius: 10px;
+    &:hover { background: #ede9fe; }
+  }
+
+  .ap-avatar {
+    background: linear-gradient(135deg, var(--purple-accent), #6d28d9);
+    color: var(--text-muted);
+    width: 42px;
+    height: 42px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+  }
+}

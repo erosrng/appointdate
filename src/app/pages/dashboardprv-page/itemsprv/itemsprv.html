@@ -1,0 +1,357 @@
+<div class="ap-page-container p-4" data-reveal>
+
+  <ng-template #modalArticulo>
+    <div class="ap-modal-container">
+      <div class="ap-modal-header d-flex align-items-center p-3">
+        <div class="icon-circle me-3">
+          <mat-icon>{{ isEdit ? 'edit_note' : 'add_box' }}</mat-icon>
+        </div>
+        <div>
+          <h2 mat-dialog-title class="fw-bold m-0 text-white">
+            {{ isEdit ? 'Editar Ficha Maestra' : 'Nuevo Registro de Catálogo' }}
+          </h2>
+          <small class="text-white-50 text-uppercase" style="letter-spacing: 1px; font-size: 0.7rem;">
+            Gestión de Inventario y Servicios 
+          </small>
+        </div>
+        <span class="ms-auto"></span>
+        <button mat-icon-button mat-dialog-close class="text-white">
+          <mat-icon>close</mat-icon>
+        </button>
+      </div>
+
+      <mat-dialog-content class="ap-modal-body p-4">
+        <div class="row g-4">
+          
+          <div class="col-md-4 border-end">
+            <div class="image-upload-wrapper mb-4" (click)="fileInput.click()">
+              <img [src]="imagePreview || 'https://placehold.co/300x300?text=SIN+IMAGEN'" 
+                  class="img-preview shadow-sm border rounded-4">
+              <div class="upload-overlay">
+                <mat-icon>add_a_photo</mat-icon>
+                <span class="mt-2 text-uppercase fw-bold" style="font-size: 0.7rem;">Imagen del Producto</span>
+              </div>
+            </div>
+            <input #fileInput type="file" (change)="onFileSelected($event)" hidden accept="image/*">
+
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>Estatus de Publicación *</mat-label>
+              <mat-select [(ngModel)]="itemActual.estado" required>
+                <mat-option value="Activo">
+                  <mat-icon class="text-success">check_circle</mat-icon> ACTIVO (Público)
+                </mat-option>
+                <mat-option value="Inactivo">
+                  <mat-icon class="text-danger">pause_circle</mat-icon> INACTIVO (Borrador)
+                </mat-option>
+                <mat-option value="Agotado">
+                  <mat-icon class="text-warning">inventory_2</mat-icon> AGOTADO
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+
+            <div class="alert alert-info border-0 shadow-sm mt-3" *ngIf="itemActual.estado === 'Activo'">
+              <small class="d-flex align-items-center fw-bold text-primary">
+                <mat-icon class="me-2 fs-6">visibility</mat-icon> Este item será visible para el público.
+              </small>
+            </div>
+          </div>
+
+          <div class="col-md-8">
+            <div class="row g-3">
+              
+              <div class="col-12">
+                <mat-form-field appearance="outline" class="w-100">
+                  <mat-label>Nombre Comercial / Título del Item *</mat-label>
+                  <input matInput [(ngModel)]="itemActual.descripcion" placeholder="Ej: Laptop HP ProBook 450" required>
+                  <mat-icon matSuffix>title</mat-icon>
+                </mat-form-field>
+              </div>
+
+              <div class="col-12">
+                <mat-form-field appearance="outline" class="w-100">
+                  <mat-label>Descripción Detallada / Especificaciones</mat-label>
+                  <textarea matInput [(ngModel)]="itemActual.descripcionLarga" 
+                            rows="4" 
+                            placeholder="Escriba aquí los detalles técnicos, garantía, o información relevante del servicio..."></textarea>
+                </mat-form-field>
+              </div>
+
+              <div class="col-md-6">
+                <mat-form-field appearance="outline" class="w-100">
+                  <mat-label>Tipo de Registro *</mat-label>
+                  <mat-select [(ngModel)]="itemActual.tipo" required>
+                    <mat-option value="PRODUCTO">PRODUCTO FÍSICO</mat-option>
+                    <mat-option value="SERVICIO">SERVICIO PROFESIONAL</mat-option>
+                  </mat-select>
+                  <mat-icon matPrefix class="me-2">category</mat-icon>
+                </mat-form-field>
+              </div>
+
+              <div class="col-md-6">
+                <mat-form-field appearance="outline" class="w-100">
+                  <mat-label>Precio Base de Venta ($) *</mat-label>
+                  <input matInput type="number" [(ngModel)]="itemActual.precio" required min="0">
+                  <span matTextPrefix>$&nbsp;</span>
+                  <mat-icon matSuffix>payments</mat-icon>
+                </mat-form-field>
+              </div>
+
+              <ng-container *ngIf="itemActual.tipo === 'PRODUCTO'">
+                <div class="col-md-6">
+                  <mat-form-field appearance="outline" class="w-100" [color]="(itemActual.stock === null || itemActual.stock === undefined) ? 'warn' : 'primary'">
+                    <mat-label>Stock Actual *</mat-label>
+                    <input matInput type="number" [(ngModel)]="itemActual.stock" required>
+                    <mat-icon matSuffix [class.text-danger]="(itemActual.stock === null || itemActual.stock === undefined)">inventory</mat-icon>
+                    <mat-hint *ngIf="(itemActual.stock === null || itemActual.stock === undefined)" class="text-danger fw-bold small">Requerido para inventario</mat-hint>
+                  </mat-form-field>
+                </div>
+                <div class="col-md-6">
+                  <mat-form-field appearance="outline" class="w-100">
+                    <mat-label>Alerta Stock Mínimo</mat-label>
+                    <input matInput type="number" [(ngModel)]="itemActual.minimo">
+                    <mat-icon matSuffix>warning_amber</mat-icon>
+                  </mat-form-field>
+                </div>
+              </ng-container>
+
+              <ng-container *ngIf="itemActual.tipo === 'SERVICIO'">
+                <div class="col-12">
+                  <div class="p-4 rounded-4 border bg-dark-subtle-custom shadow-sm">
+                    <div class="d-flex align-items-center mb-3">
+                      <mat-icon class="me-2 text-primary">settings_suggest</mat-icon>
+                      <span class="fw-bold text-uppercase small">Configuración del Servicio</span>
+                    </div>
+                    
+                    <div class="row g-3">
+                      <div class="col-md-6">
+                        <mat-form-field appearance="outline" class="w-100">
+                          <mat-label>Modalidad de Cobro *</mat-label>
+                          <mat-select [(ngModel)]="itemActual.modalidad" required>
+                            <mat-option value="PROYECTO">POR PROYECTO (Ej: Web, Software)</mat-option>
+                            <mat-option value="HORA">POR HORA PROFESIONAL</mat-option>
+                            <mat-option value="CITA">POR CITA / SESIÓN</mat-option>
+                            <mat-option value="ABONO">SUSCRIPCIÓN / IGUALA MENSUAL</mat-option>
+                            <mat-option value="ALQUILER">ALQUILER POR DÍA</mat-option>
+                          </mat-select>
+                        </mat-form-field>
+                      </div>
+
+                      <div class="col-md-6">
+                        <mat-form-field appearance="outline" class="w-100">
+                          <mat-label>Tiempo Estimado de Entrega *</mat-label>
+                          <mat-select [(ngModel)]="itemActual.tiempoEntrega" required>
+                            <mat-option value="Inmediato">ENTREGA INMEDIATA</mat-option>
+                            <mat-option value="24-48 Horas">24 A 48 HORAS</mat-option>
+                            <mat-option value="7 Días Hábiles">7 DÍAS HÁBILES</mat-option>
+                            <mat-option value="15-30 Días">15 A 30 DÍAS (PROYECTO)</mat-option>
+                            <mat-option value="A convenir">A CONVENIR / SEGÚN AGENDA</mat-option>
+                            <mat-option value="Indefinido">TIEMPO INDEFINIDO</mat-option>
+                          </mat-select>
+                          <mat-icon matSuffix>timer</mat-icon>
+                        </mat-form-field>
+                      </div>
+
+                      <div class="col-12 mt-2" *ngIf="itemActual.modalidad !== 'PROYECTO'">
+                        <div class="row g-2 align-items-center">
+                          <div class="col-md-6 text-muted small">
+                            <mat-icon class="vertical-align-middle fs-6">info</mat-icon> 
+                            Horario de atención sugerido:
+                          </div>
+                          <div class="col-md-3">
+                            <input matInput type="time" [(ngModel)]="itemActual.horaInicio" class="form-control form-control-sm border-0 bg-transparent text-white">
+                          </div>
+                          <div class="col-md-3">
+                            <input matInput type="time" [(ngModel)]="itemActual.horaFin" class="form-control form-control-sm border-0 bg-transparent text-white">
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </ng-container>
+
+            </div>
+          </div>
+        </div>
+      </mat-dialog-content>
+
+      <mat-dialog-actions align="end" class="ap-modal-footer p-3 border-top bg-light">
+        <button mat-button mat-dialog-close class="rounded-pill px-4 me-2">DESCARTAR</button>
+        <button mat-flat-button 
+                class="btn-primary-solid px-5 rounded-pill shadow-sm" 
+                (click)="guardarProducto()"
+                [disabled]="!itemActual.descripcion || !itemActual.tipo || (itemActual.precio === null || itemActual.precio === undefined) || (itemActual.tipo === 'PRODUCTO' && (itemActual.stock === null || itemActual.stock === undefined)) || (itemActual.tipo === 'SERVICIO' && !itemActual.modalidad)">
+          <mat-icon class="me-2">cloud_upload</mat-icon> {{ isEdit ? 'ACTUALIZAR' : 'PUBLICAR REGISTRO' }}
+        </button>
+      </mat-dialog-actions>
+    </div>
+  </ng-template>
+
+  
+  <div class="ap-toolbar-modern d-flex align-items-center justify-content-between p-4 mb-4 rounded-4 shadow-sm">
+    <div class="d-flex align-items-center">
+      <div class="icon-box-primary me-3">
+        <mat-icon>inventory_2</mat-icon>
+      </div>
+      <div>
+        <h1 class="h4 fw-bold m-0" style="color: var(--text-main)">Catálogo Maestro</h1>
+        <p class="text-muted small m-0">Gestión centralizada de productos y servicios profesionales</p>
+      </div>
+    </div>
+    <button mat-flat-button class="btn-primary-solid px-4 py-2" (click)="abrirModal()">
+      <mat-icon class="me-2">add</mat-icon> NUEVO REGISTRO
+    </button>
+  </div>
+
+  <div class="card ap-main-card border-0 shadow-sm rounded-4 overflow-hidden">
+    <div class="card-body p-0">
+      
+      <div class="p-4 border-bottom">
+        <div class="row align-items-center">
+          <div class="col-md-5">
+            <mat-form-field appearance="outline" class="w-100 no-wrapper">
+              <mat-icon matPrefix class="text-muted me-2">search</mat-icon>
+              <input matInput (keyup)="aplicarFiltro($event)" placeholder="Buscar por código, nombre o categoría..." #input>
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
+
+      <div class="table-responsive">
+        <table mat-table [dataSource]="dataSource" matSort class="w-100">
+
+        <ng-container matColumnDef="imagen">
+          <th mat-header-cell *matHeaderCellDef> Item </th>
+          <td mat-cell *matCellDef="let row" class="ps-4">
+            <div class="position-relative d-inline-block">
+              <img [src]="row.imagen || 'https://placehold.co/45x45?text=Item'" 
+                  class="rounded-3 border shadow-sm" style="width: 50px; height: 50px; object-fit: cover;">
+              <span class="position-absolute top-0 start-100 translate-middle p-1 rounded-circle border border-light"
+                    [ngClass]="row.estado === 'Activo' ? 'bg-success' : 'bg-danger'"
+                    style="width: 12px; height: 12px;"
+                    [matTooltip]="'Estado: ' + row.estado">
+              </span>
+            </div>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="datos">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Información del Producto </th>
+          <td mat-cell *matCellDef="let row">
+            <div class="py-3">
+              <span class="d-block fw-bold mb-0" style="color: #1e293b; font-size: 0.95rem;">{{row.descripcion}}</span>
+              <div class="d-flex align-items-center gap-2 mt-1">
+                <span class="badge bg-light text-primary border font-monospace" style="font-size: 0.7rem;">
+                  <mat-icon style="font-size: 10px; width: 10px; height: 10px; vertical-align: middle;">qr_code</mat-icon> 
+                  {{row.codigo || 'SIN-SKU'}}
+                </span>
+                <span class="text-muted small d-flex align-items-center" *ngIf="row.tiempoEntrega">
+                  <mat-icon class="me-1" style="font-size: 14px; width: 14px; height: 14px;">local_shipping</mat-icon>
+                  {{row.tiempoEntrega}}
+                </span>
+              </div>
+            </div>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="tipo">
+          <th mat-header-cell *matHeaderCellDef class="text-center"> Categoría </th>
+          <td mat-cell *matCellDef="let row" class="text-center">
+            <div class="d-flex flex-column align-items-center">
+              <span class="ap-badge mb-1" [ngClass]="row.tipo.toLowerCase()">
+                <mat-icon style="font-size: 14px; width: 14px; height: 14px;">
+                  {{ row.tipo === 'PRODUCTO' ? 'inventory_2' : 'settings_suggest' }}
+                </mat-icon>
+                {{row.tipo}}
+              </span>
+              <span class="text-muted small d-flex align-items-center" style="font-size: 0.6rem;" *ngIf="row.modalidad">
+                {{row.modalidad}}
+              </span>
+            </div>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="precio">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Valor Comercial </th>
+          <td mat-cell *matCellDef="let row">
+            <div class="d-flex flex-column">
+              <div class="price-tag fw-bold text-success" style="font-size: 1.1rem;">
+                {{row.precio | currency:'USD':'symbol':'1.2-2'}}
+              </div>
+              <span class="text-muted small d-flex align-items-center" style="font-size: 0.75rem;" *ngIf="row.precio1">
+                Ref: {{row.precio1 | number:'1.2-2'}} Bs.
+              </span>
+            </div>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="stock">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Inventario </th>
+          <td mat-cell *matCellDef="let row">
+            <div *ngIf="row.tipo === 'PRODUCTO'">
+              <div class="d-flex align-items-center gap-2">
+                <div class="stock-progress-container" style="width: 60px; height: 6px; background: #e2e8f0; border-radius: 10px; overflow: hidden;">
+                  <div [style.width.%]="row.stock > 100 ? 100 : row.stock" 
+                      [ngClass]="row.stock <= row.minimo ? 'bg-danger' : 'bg-primary'"
+                      style="height: 100%;"></div>
+                </div>
+                <span class="fw-bold" [class.text-danger]="row.stock <= row.minimo">{{row.stock}}</span>
+              </div>
+              <span class="text-muted small" style="font-size: 0.75rem;" *ngIf="row.minimo">
+                Mín: {{row.minimo}} uds.
+              </span>
+            </div>
+            
+            <div *ngIf="row.tipo === 'SERVICIO'" class="d-flex align-items-center text-info">
+              <mat-icon class="me-1" style="font-size: 16px; width: 16px; height: 16px;">verified_user</mat-icon>
+              <span style="font-size: 0.85rem;">Disponibilidad Inmediata</span>
+            </div>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="estado">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Visibilidad </th>
+          <td mat-cell *matCellDef="let row">
+            <span class="ap-badge-status" [ngClass]="row.estado.toLowerCase()">
+              <span class="dot"></span>
+              {{row.estado}}
+            </span>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="acciones">
+          <th mat-header-cell *matHeaderCellDef class="text-end pe-4"> Gestión </th>
+          <td mat-cell *matCellDef="let row" class="text-end pe-4">
+            <div class="d-flex justify-content-end gap-1">
+              <button mat-icon-button class="btn-action edit" (click)="abrirModal(row)" matTooltip="Editar Ficha Técnica">
+                <mat-icon>edit_note</mat-icon>
+              </button>
+              <button mat-icon-button class="btn-action delete" (click)="eliminarItem(row)" matTooltip="Dar de baja">
+                <mat-icon>delete_outline</mat-icon>
+              </button>
+            </div>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns" class="ap-table-header"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;" class="ap-table-row"></tr>
+
+        <tr class="mat-row" *matNoDataRow>
+          <td class="mat-cell p-5 text-center" colspan="7">
+            <div class="py-4">
+              <mat-icon class="text-muted opacity-25 mb-2" style="font-size: 64px; width: 64px; height: 64px;">inventory_2</mat-icon>
+              <h3 class="fw-bold text-muted mb-1">Sin registros en el catálogo</h3>
+              <p class="text-muted small">No hemos encontrado productos o servicios para mostrar.</p>
+              <button mat-flat-button color="primary" class="mt-2 rounded-pill" (click)="abrirModal()">
+                Registrar mi primer item
+              </button>
+            </div>
+          </td>
+        </tr>
+      </table>
+
+        <mat-paginator [pageSizeOptions]="[10, 25, 50]" class="ap-paginator border-top"></mat-paginator>
+      </div>
+    </div>
+  </div>
+</div>

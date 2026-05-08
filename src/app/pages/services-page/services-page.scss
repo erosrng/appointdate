@@ -1,0 +1,142 @@
+@import '../../../variables.scss';
+
+// Variables locales mapeadas a tu paleta global
+$ap-navy-dark: var(--navy-dark);
+$ap-purple: var(--purple-accent);
+$ap-bg-soft: var(--bg-main);
+$ap-slate: #64748b;
+
+[data-reveal] {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: $transition;
+}
+[data-reveal].visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.ap-services-view {
+  background-color: $ap-bg-soft;
+  min-height: 100vh;
+}
+
+// Header de Perfil Profesional
+.ap-provider-header {
+  background-color: var(--bg-card); 
+  border-bottom: 1px solid var(--border-color);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02);
+  
+  &__avatar {
+    width: 130px;
+    height: 130px;
+    border-radius: 28px; // Estilo Squircle
+    overflow: hidden;
+    border: 4px solid white;
+    img { width: 100%; height: 100%; object-fit: cover; }
+  }
+
+  &__bio {
+    color: $ap-slate;
+    font-size: 1.1rem;
+    font-weight: 500;
+  }
+}
+
+.ap-info-tag {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: $ap-slate;
+  background-color: var(--bg-main);
+  padding: 6px 12px;
+  border-radius: 8px;
+  mat-icon { font-size: 18px; width: 18px; height: 18px; color: $ap-purple; }
+  
+  &.text-success mat-icon { color: #10b981; }
+}
+
+// Tarjeta de Servicio (Premium Look)
+.ap-service-item {
+  background-color: var(--bg-main);
+  border-radius: 24px;
+  overflow: hidden;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border: 1px solid rgba(226, 232, 240, 0.8);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+
+  &:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 25px 50px -12px rgba(139, 92, 246, 0.15) !important;
+    border-color: $ap-purple;
+  }
+
+  &__content {
+    padding: 30px;
+    flex-grow: 1;
+  }
+
+  &__details {
+    display: flex;
+    gap: 15px;
+    margin-top: 20px;
+    padding-top: 15px;
+    border-top: 1px solid #f1f5f9;
+
+    .detail {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      color: $ap-slate;
+      font-size: 0.8rem;
+      font-weight: 700;
+      mat-icon { font-size: 18px; width: 18px; height: 18px; color: var(--navy-medium); }
+    }
+  }
+}
+
+// Labels y Badges
+.ap-category-label {
+  font-size: 0.65rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  color: $ap-purple;
+  background: var(--purple-light);
+  padding: 5px 14px;
+  border-radius: 8px;
+  letter-spacing: 0.5px;
+}
+
+.ap-price-label {
+  font-weight: 900;
+  color: $ap-navy-dark;
+  font-size: 1.25rem;
+  &::before { content: '$'; font-size: 0.9rem; margin-right: 2px; }
+}
+
+.ap-filter-badge {
+  background: $ap-navy-dark;
+  color: var(--text-muted);
+  padding: 8px 18px;
+  border-radius: 12px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  box-shadow: 0 4px 10px rgba(15, 23, 42, 0.2);
+}
+
+// Botón de agendar
+.btn-agendar {
+  background: linear-gradient(135deg, $ap-purple, #6d28d9) !important;
+  color: #f1f5f9;
+  font-weight: 700 !important;
+  border-radius: 14px !important;
+  transition: 0.3s !important;
+  &:hover {
+    transform: scale(1.02);
+    box-shadow: 0 8px 20px rgba(139, 92, 246, 0.3) !important;
+  }
+}

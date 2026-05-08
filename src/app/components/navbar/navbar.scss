@@ -1,0 +1,96 @@
+@use '../../../variables.scss' as *;
+
+.ap-navbar {
+  height: 72px;
+  display: flex;
+  align-items: center;
+  background: var(--navy-dark); // Usando tu azul marino oscuro
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  transition: $transition;
+
+  &__brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    text-decoration: none;
+  }
+
+  &__logo-box {
+    background: linear-gradient(135deg, var(--purple-accent), #6d28d9);
+    color: white;
+    font-weight: 800;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    font-size: 1.1rem;
+    box-shadow: 0 4px 10px rgba(139, 92, 246, 0.3);
+  }
+
+  &__logo-text {
+    font-size: 1.4rem;
+    font-weight: 800;
+    color: white;
+    letter-spacing: -0.5px;
+    span { color: var(--purple-accent); } // El punto morado
+  }
+
+  &__nav {
+    gap: 2.5rem;
+  }
+
+  &__link {
+    text-decoration: none;
+    color: rgba(255, 255, 255, 0.7);
+    font-weight: 600;
+    font-size: 0.95rem;
+    transition: all 0.2s ease;
+
+    &:hover {
+      color: white;
+    }
+
+    &--active {
+      color: var(--purple-accent) !important;
+      position: relative;
+      
+      // Indicador debajo del link activo
+      &::after {
+        content: '';
+        position: absolute;
+        bottom: -25px;
+        left: 0;
+        width: 100%;
+        height: 3px;
+        background: var(--purple-accent);
+        border-radius: 10px 10px 0 0;
+      }
+    }
+  }
+
+  &__btn-login {
+    color: white !important;
+    font-weight: 600 !important;
+  }
+
+  &__btn-signup {
+    background-color: var(--purple-accent) !important;
+    color: white !important;
+    border-radius: 12px !important;
+    font-weight: 700 !important;
+    padding: 0 24px !important;
+    transition: $transition !important;
+
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 15px rgba(139, 92, 246, 0.4) !important;
+      background-color: #7c3aed !important; // Un poco más oscuro al hover
+    }
+  }
+}

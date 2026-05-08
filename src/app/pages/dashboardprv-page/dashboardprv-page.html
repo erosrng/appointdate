@@ -1,0 +1,92 @@
+<div class="ap-dashboard" [class.sidebar-collapsed]="!isSidebarOpen" data-reveal>
+  
+  <aside class="ap-sidebar shadow-lg">
+    <div class="ap-sidebar__logo d-flex align-items-center px-4 py-4">
+      <div class="logo-icon bg-primary text-white rounded me-2">Ap</div>
+      <div class="logo-text" *ngIf="isSidebarOpen">
+        <h2 class="m-0 h4 fw-bold">Apoint<span>.</span></h2>
+        <span class="badge bg-primary-subtle text-primary">Portal Partner</span>
+      </div>
+    </div>
+
+    <nav class="ap-sidebar__nav flex-grow-1">
+      <div class="nav-section-label px-4 mb-2" *ngIf="isSidebarOpen">GESTIÓN</div>
+      
+      <a routerLink="servicios" routerLinkActive="active" class="ap-nav-link" 
+         [matTooltip]="!isSidebarOpen ? 'Mis Servicios' : ''" matTooltipPosition="right">
+        <mat-icon>inventory_2</mat-icon>
+        <span *ngIf="isSidebarOpen">Mis Servicios/Productos</span>
+      </a>
+
+      <a routerLink="perfilprv" routerLinkActive="active" class="ap-nav-link"
+         [matTooltip]="!isSidebarOpen ? 'Mi Perfil' : ''" matTooltipPosition="right">
+        <mat-icon>account_circle</mat-icon>
+        <span *ngIf="isSidebarOpen">Mi Perfil</span>
+      </a>
+
+      <a routerLink="horarios" routerLinkActive="active" class="ap-nav-link"
+         [matTooltip]="!isSidebarOpen ? 'Horarios' : ''" matTooltipPosition="right">
+        <mat-icon>event_available</mat-icon>
+        <span *ngIf="isSidebarOpen">Horarios de Atención</span>
+      </a>
+      
+      <div class="nav-section-label px-4 mt-4 mb-2" *ngIf="isSidebarOpen">CONTENIDO</div>
+      
+      <a routerLink="articulos" routerLinkActive="active" class="ap-nav-link"
+         [matTooltip]="!isSidebarOpen ? 'Mis Artículos' : ''" matTooltipPosition="right">
+        <mat-icon>article</mat-icon>
+        <span *ngIf="isSidebarOpen">Mis Artículos</span>
+      </a>
+
+      <a routerLink="publico" routerLinkActive="active" class="ap-nav-link"
+         [matTooltip]="!isSidebarOpen ? 'Vista Pública' : ''" matTooltipPosition="right">
+        <mat-icon>storefront</mat-icon>
+        <span *ngIf="isSidebarOpen">Vista Pública</span>
+      </a>
+    </nav>
+
+    <div class="ap-sidebar__footer p-3 border-top">
+      <button (click)="logout()" class="btn-logout w-100 d-flex align-items-center gap-2"
+              [matTooltip]="!isSidebarOpen ? 'Cerrar Sesión' : ''" matTooltipPosition="right">
+        <mat-icon>logout</mat-icon>
+        <span *ngIf="isSidebarOpen" class="fw-bold">Cerrar Sesión</span>
+      </button>
+    </div>
+  </aside>
+
+  <div class="ap-main-container">
+    <header class="ap-topbar d-flex justify-content-between align-items-center px-4 shadow-sm">
+      <div class="d-flex align-items-center gap-3">
+        <button mat-icon-button (click)="toggleSidebar()" class="toggle-btn">
+          <mat-icon>{{ isSidebarOpen ? 'menu_open' : 'menu' }}</mat-icon>
+        </button>
+        
+        <div class="ap-topbar__title">
+          <h1 class="h5 fw-bold m-0">Panel de Control</h1>
+            <p class="text-muted small m-0">{{ businessName }} | Usuario: {{authService.getUsuario()}}</p>
+        </div>
+      </div>
+
+      <div class="ap-topbar__profile d-flex align-items-center gap-3">
+        <div class="text-end d-none d-md-block">
+          <p class="m-0 fw-bold small text-dark">{{ providerName }}</p>
+          <small class="text-success fw-bold">● En línea</small>
+        </div>
+        <div class="ap-avatar shadow-sm d-flex align-items-center justify-content-center" 
+            style="background: linear-gradient(135deg, var(--purple-accent), #6d28d9); 
+                    color: white; 
+                    width: 42px; 
+                    height: 42px; 
+                    border-radius: 12px;">
+          <mat-icon>person</mat-icon>
+        </div>
+      </div>
+    </header>
+
+    <main class="ap-view-content">
+      <div class="container-fluid p-4">
+        <router-outlet></router-outlet>
+      </div>
+    </main>
+  </div>
+</div>

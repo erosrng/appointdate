@@ -1,0 +1,183 @@
+@import '../../../../variables.scss'; // Tu archivo de variables globales
+
+.ap-page-container {
+  background-color: var(--bg-main);
+  min-height: calc(100vh - 70px);
+  transition: background-color 0.3s ease;
+}
+
+// Toolbar Superior Estilo "Glass-Solid"
+.ap-toolbar-modern {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
+  .icon-box-primary {
+    width: 45px;
+    height: 45px;
+    background: var(--purple-light);
+    color: var(--purple-accent);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px;
+  }
+}
+
+// Estilos de la Tabla Corporativa
+.ap-main-card {
+  background-color: var(--bg-card) !important;
+  border: 1px solid var(--border-color) !important;
+  
+  .mat-mdc-table {
+    background: transparent !important;
+  }
+
+  .mat-mdc-header-row {
+    background-color: rgba(var(--purple-accent-rgb), 0.03) !important;
+  }
+
+  .mat-mdc-header-cell {
+    color: var(--text-muted) !important;
+    font-weight: 800 !important;
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    letter-spacing: 0.5px;
+  }
+
+  .mat-mdc-cell {
+    color: var(--text-main) !important;
+    border-bottom: 1px solid var(--border-color) !important;
+  }
+}
+
+// Badges Semánticos (Robusto)
+.ap-badge {
+  padding: 6px 12px;
+  border-radius: 8px;
+  font-size: 0.7rem;
+  font-weight: 800;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+
+  &.producto { background: #e0f2fe; color: #0369a1; }
+  &.servicio { background: #f5f3ff; color: #6d28d9; }
+  
+  &.activo { background: #dcfce7; color: #15803d; }
+  &.inactivo { background: #fee2e2; color: #b91c1c; }
+  &.agotado { background: #fef3c7; color: #92400e; }
+}
+
+// Precio y Stock
+.price-tag {
+  font-weight: 800;
+  color: #10b981; // Emerald sólido para dinero
+  font-size: 1rem;
+}
+
+.stock-indicator {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  .stock-dot {
+    width: 8px; height: 8px; border-radius: 50%;
+    &.high { background: #10b981; }
+    &.low { background: #f59e0b; }
+    &.empty { background: #ef4444; }
+  }
+}
+
+// Botones de acción limpios
+.btn-action {
+  transition: all 0.2s;
+  &:hover.edit { color: var(--purple-accent) !important; background: var(--purple-light); }
+  &:hover.delete { color: #ef4444 !important; background: #fee2e2; }
+}
+
+.ap-modal-container {
+  background-color: var(--bg-card);
+  overflow: hidden;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+.ap-modal-header {
+  background-color: var(--navy-dark) !important;
+  border-bottom: 3px solid var(--purple-accent);
+  
+  .icon-circle {
+    width: 48px; height: 48px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    color: white;
+  }
+}
+
+.bg-light-subtle {
+  background-color: rgba(var(--purple-accent-rgb), 0.02);
+  border: 1px dashed var(--border-color) !important;
+}
+
+// Campos compactos para horarios
+.sm-field {
+  .mat-mdc-form-field-subscript-wrapper { display: none; }
+}
+
+.image-upload-wrapper {
+  position: relative;
+  cursor: pointer;
+  border: 2px dashed var(--border-color);
+  border-radius: 20px;
+  overflow: hidden;
+  transition: all 0.2s ease;
+
+  .img-preview { width: 100%; aspect-ratio: 1/1; object-fit: cover; }
+
+  .upload-overlay {
+    position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(15, 23, 42, 0.8);
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    color: white; opacity: 0; transition: 0.3s;
+  }
+
+  &:hover {
+    border-color: var(--purple-accent);
+    .upload-overlay { opacity: 1; }
+  }
+}
+
+.btn-primary-solid {
+  background-color: var(--purple-accent) !important;
+  color: white !important;
+  height: 50px;
+  font-weight: 700 !important;
+  letter-spacing: 0.5px;
+}
+
+/* --- ESTILOS COMPLEMENTARIOS MODAL --- */
+.ap-modal-body {
+  textarea {
+    resize: none; // Evita que el usuario deforme el modal
+    line-height: 1.5;
+  }
+}
+
+// Fondo especial para la sección de servicios en modo oscuro
+.bg-dark-subtle-custom {
+  background-color: rgba(var(--purple-accent-rgb), 0.05);
+  border: 1px solid rgba(var(--purple-accent-rgb), 0.1) !important;
+}
+
+// Estilos de los iconos en el select
+mat-option mat-icon {
+  vertical-align: middle;
+  margin-top: -3px;
+  margin-right: 8px;
+  font-size: 20px;
+}
+
+// Botón deshabilitado (si falta el stock)
+.btn-primary-solid:disabled {
+  background-color: #cbd5e1 !important;
+  color: #64748b !important;
+  cursor: not-allowed;
+}
