@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, PLATFORM_ID, Inject, signal } from '@angular/core';
+import { Component, OnInit, OnDestroy, NgZone, PLATFORM_ID, Inject, signal } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { RouterModule, NavigationEnd, Router } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
@@ -26,6 +26,7 @@ export class Navbar implements OnInit, OnDestroy {
     @Inject(PLATFORM_ID) platformId: Object,
     public authService: AuthService,
     private router: Router,
+    private ngZone: NgZone,
   ) {
     this.isBrowser = isPlatformBrowser(platformId);
   }
@@ -36,7 +37,9 @@ export class Navbar implements OnInit, OnDestroy {
       if (savedTheme === 'dark') this.setDark();
 
       this.scrollFn = () => this.scrolled.set(window.scrollY > 20);
-      window.addEventListener('scroll', this.scrollFn, { passive: true });
+      this.ngZone.runOutsideAngular(() => {
+        window.addEventListener('scroll', this.scrollFn, { passive: true });
+      });
 
       this.router.events.pipe(filter(e => e instanceof NavigationEnd)).subscribe({
         next: (e: any) => this.hideNavbar.set(e.url.startsWith('/dashboardprv')),

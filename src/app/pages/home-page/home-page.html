@@ -130,7 +130,7 @@
         <ap-carousel [showArrows]="true" [showDots]="true">
           <div class="ap-card" *ngFor="let doc of featuredDoctors()">
             <div class="ap-card__img" *ngIf="doc.foto; else placeholderDoc">
-              <img [src]="doc.foto" [alt]="doc.nombre" class="ap-card__photo">
+              <img [src]="doc.foto" [alt]="doc.nombre" class="ap-card__photo" loading="lazy" width="300" height="300">
               <div class="ap-card__online" *ngIf="doc.active"></div>
             </div>
             <ng-template #placeholderDoc>

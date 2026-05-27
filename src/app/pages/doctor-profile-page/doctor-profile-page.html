@@ -1,48 +1,179 @@
-<main class="ap-perfil">
-  <div *ngIf="isLoading" class="text-center py-5">
+<main class="pp">
+
+  <!-- LOADING -->
+  <div *ngIf="isLoading()" class="pp__loader">
     <mat-spinner diameter="40"></mat-spinner>
+    <p>Cargando perfil...</p>
   </div>
 
-  <ng-container *ngIf="!isLoading && profile">
-    <div class="ap-perfil__hero">
-      <div class="ap-perfil__banner" [style.background-image]="'url(' + (profile.banner || 'https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&q=80&w=1200') + ')'">
-        <div class="container">
-          <div class="ap-perfil__info">
-            <img [src]="profile.foto || 'https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?auto=format&fit=crop&q=80&w=200'" [alt]="profile.nombre" class="ap-perfil__avatar">
-            <div>
-              <h1 class="text-white fw-black mb-1">{{ profile.nombre }}</h1>
-              <p class="text-white-50 mb-2">{{ profile.gr_desc || profile.especialidad }}</p>
-              <p class="text-white-50 small" *ngIf="profile.direc2">
-                <mat-icon style="font-size:14px;width:14px;height:14px;">location_on</mat-icon>
-                {{ profile.direc2 }}{{ profile.direc3 ? ', ' + profile.direc3 : '' }}
-              </p>
+  <!-- NOT FOUND -->
+  <div *ngIf="notFound()" class="pp__empty">
+    <div class="pp__empty-icon">
+      <mat-icon>person_search</mat-icon>
+    </div>
+    <h3>Doctor no encontrado</h3>
+    <p>El perfil que buscas no está disponible o ha sido desactivado.</p>
+    <a routerLink="/doctores" class="pp__btn-outline">Ver directorio</a>
+  </div>
+
+  <!-- PROFILE -->
+  <ng-container *ngIf="profile() as p">
+
+    <!-- ===== HERO ===== -->
+    <section class="pp__hero" [style.--user-color]="p.color_theme">
+      <div class="pp__banner" [style.background-image]="'url(' + (p.banner || defaultBanner) + ')'">
+        <div class="pp__overlay"></div>
+        <div class="pp__banner-content">
+          <div class="pp__intro">
+            <div class="pp__avatar-wrap">
+              <img *ngIf="p.foto; else avatarPlaceholder"
+                   [src]="p.foto" [alt]="p.nombre" class="pp__avatar"
+                   loading="lazy" width="140" height="140">
+              <ng-template #avatarPlaceholder>
+                <div class="pp__avatar-placeholder" [style.background]="p.color_theme">
+                  {{ getInitiales(p.nombre) }}
+                </div>
+              </ng-template>
+              <span class="pp__badge" *ngIf="p.especialidad">
+                <mat-icon>verified</mat-icon> {{ p.especialidad }}
+              </span>
+            </div>
+            <div class="pp__info">
+              <h1 class="pp__name">{{ p.nombre }}</h1>
+              <div class="pp__meta">
+                <span *ngIf="p.ciudad || p.estado">
+                  <mat-icon>location_on</mat-icon>
+                  {{ p.ciudad }}{{ p.estado ? ', ' + p.estado : '' }}
+                </span>
+                <span *ngIf="p.email">
+                  <mat-icon>email</mat-icon> {{ p.email }}
+                </span>
+                <span *ngIf="p.telefono">
+                  <mat-icon>phone</mat-icon> {{ p.telefono }}
+                </span>
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
+      <div class="pp__wave" [style.color]="p.color_theme">
+        <svg viewBox="0 0 1440 60" preserveAspectRatio="none">
+          <path fill="currentColor" d="M0,30 C360,60 1080,0 1440,30 L1440,60 L0,60 Z"/>
+        </svg>
+      </div>
+    </section>
 
-    <div class="container py-4">
-      <div class="row g-4">
-        <div class="col-lg-8">
-          <section class="ap-perfil__section">
-            <h3 class="fw-bold mb-3">Acerca de</h3>
-            <p>{{ profile.about || 'Sin descripción disponible.' }}</p>
+    <!-- ===== CONTENT ===== -->
+    <div class="pp__body">
+      <div class="pp__grid">
+        <div class="pp__main">
+
+          <!-- ABOUT -->
+          <section class="pp__card" *ngIf="p.about">
+            <div class="pp__card-head">
+              <mat-icon>badge</mat-icon>
+              <h3>Acerca de</h3>
+            </div>
+            <div class="pp__card-body">
+              <p class="pp__about-text">{{ p.about }}</p>
+            </div>
           </section>
+
+          <!-- CLINICS -->
+          <section class="pp__card" *ngIf="p.clinicas.length > 0">
+            <div class="pp__card-head">
+              <mat-icon>business</mat-icon>
+              <h3>Clínicas y Horarios</h3>
+            </div>
+            <div class="pp__card-body pp__clinicas">
+              <div class="pp__clinica" *ngFor="let cl of p.clinicas; trackBy: trackClinica">
+                <div class="pp__clinica-head">
+                  <mat-icon>local_hospital</mat-icon>
+                  <span class="pp__clinica-name">{{ cl.nombre || 'Consultorio' }}</span>
+                </div>
+                <div class="pp__horarios" *ngIf="cl.horarios.length > 0">
+                  <div class="pp__horario" *ngFor="let h of cl.horarios">
+                    <span class="pp__dia">{{ diasSemana[h.dia] }}</span>
+                    <div class="pp__slots">
+                      <span class="pp__slot" *ngFor="let s of h.slots">
+                        {{ s.desde }} — {{ s.hasta }}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+                <div class="pp__sin-horarios" *ngIf="cl.horarios.length === 0">
+                  <span>Sin horarios registrados</span>
+                </div>
+              </div>
+            </div>
+          </section>
+
         </div>
-        <div class="col-lg-4">
-          <div class="ap-perfil__sidebar">
-            <h5 class="fw-bold mb-3">Contacto</h5>
-            <p *ngIf="profile.email" class="small mb-2"><mat-icon>email</mat-icon> {{ profile.email }}</p>
-            <p *ngIf="profile.telefono" class="small mb-2"><mat-icon>phone</mat-icon> {{ profile.telefono }}</p>
+
+        <!-- SIDEBAR -->
+        <aside class="pp__side">
+
+          <!-- CONTACT CARD -->
+          <div class="pp__card pp__card--side">
+            <div class="pp__card-head">
+              <mat-icon>contact_page</mat-icon>
+              <h3>Contacto</h3>
+            </div>
+            <div class="pp__card-body">
+              <a *ngIf="p.telefono" [href]="'tel:' + p.telefono" class="pp__contact-link" [style.--user-color]="p.color_theme">
+                <mat-icon>phone</mat-icon>
+                <span>{{ p.telefono }}</span>
+              </a>
+              <a *ngIf="p.email" [href]="'mailto:' + p.email" class="pp__contact-link" [style.--user-color]="p.color_theme">
+                <mat-icon>email</mat-icon>
+                <span>{{ p.email }}</span>
+              </a>
+              <a *ngIf="p.website" [href]="p.website" target="_blank" rel="noopener" class="pp__contact-link" [style.--user-color]="p.color_theme">
+                <mat-icon>language</mat-icon>
+                <span>{{ p.website }}</span>
+              </a>
+            </div>
           </div>
-        </div>
+
+          <!-- SOCIAL -->
+          <div class="pp__card pp__card--side" *ngIf="hasRedes()">
+            <div class="pp__card-head">
+              <mat-icon>share</mat-icon>
+              <h3>Redes Sociales</h3>
+            </div>
+            <div class="pp__card-body pp__redes">
+              <a *ngIf="p.redes.instagram" [href]="p.redes.instagram" target="_blank" rel="noopener"
+                 class="pp__social pp__social--ig" title="Instagram">
+                <mat-icon>camera_alt</mat-icon>
+              </a>
+              <a *ngIf="p.redes.whatsapp" [href]="p.redes.whatsapp" target="_blank" rel="noopener"
+                 class="pp__social pp__social--wa" title="WhatsApp">
+                <mat-icon>chat</mat-icon>
+              </a>
+              <a *ngIf="p.redes.youtube" [href]="p.redes.youtube" target="_blank" rel="noopener"
+                 class="pp__social pp__social--yt" title="YouTube">
+                <mat-icon>smart_display</mat-icon>
+              </a>
+              <a *ngIf="p.redes.tiktok" [href]="p.redes.tiktok" target="_blank" rel="noopener"
+                 class="pp__social pp__social--tk" title="TikTok">
+                <mat-icon>music_note</mat-icon>
+              </a>
+            </div>
+          </div>
+
+          <!-- CTA -->
+          <div class="pp__card pp__card--side pp__card--cta" [style.--user-color]="p.color_theme">
+            <div class="pp__card-body pp__cta-body">
+              <mat-icon>calendar_month</mat-icon>
+              <h4>¿Necesitas una cita?</h4>
+              <p>Contacta directamente al doctor por los medios disponibles.</p>
+            </div>
+          </div>
+
+        </aside>
       </div>
     </div>
+
   </ng-container>
 
-  <div *ngIf="!isLoading && !profile" class="text-center py-5 text-muted">
-    <mat-icon style="font-size:48px;width:48px;height:48px;">person_off</mat-icon>
-    <p class="mt-2">Perfil no encontrado</p>
-  </div>
 </main>

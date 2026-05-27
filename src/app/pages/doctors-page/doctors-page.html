@@ -134,7 +134,7 @@
           <div class="col-lg-4 col-md-6" *ngFor="let doc of doctors()">
             <div class="ap-doc-card">
               <div class="ap-doc-card__header" *ngIf="doc.foto; else noFoto">
-                <img [src]="doc.foto" [alt]="doc.nombre" class="ap-doc-card__photo">
+                <img [src]="doc.foto" [alt]="doc.nombre" class="ap-doc-card__photo" loading="lazy" width="300" height="300">
                 <div class="ap-doc-card__online" *ngIf="doc.active"></div>
                 <div class="ap-doc-card__tag">{{ doc.gr_desc || 'Especialista' }}</div>
               </div>
