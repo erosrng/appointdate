@@ -1,4 +1,4 @@
-@import '../../../../variables.scss'; // Tu archivo de variables globales
+@use '../../../../variables.scss' as *;
 
 .ap-page-container {
   background-color: var(--bg-main);

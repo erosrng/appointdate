@@ -1,10 +1,9 @@
-import { Component, OnInit, PLATFORM_ID, Inject } from '@angular/core'; // Importa Inject y PLATFORM_ID
-import { CommonModule, isPlatformBrowser } from '@angular/common'; // Importa isPlatformBrowser
+import { Component, OnInit, PLATFORM_ID, Inject } from '@angular/core';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { RouterModule } from '@angular/router';
-
-// Angular Material
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import { AuthService } from '../../auth.service';
 
 @Component({
   selector: 'app-navbar',
@@ -15,19 +14,19 @@ import { MatIconModule } from '@angular/material/icon';
 })
 export class Navbar implements OnInit {
   isDarkMode = false;
-  private isBrowser: boolean; // Variable para saber si estamos en el cliente
+  private isBrowser: boolean;
 
-  constructor(@Inject(PLATFORM_ID) platformId: Object) {
-    this.isBrowser = isPlatformBrowser(platformId); // Inicializa la verificación
+  constructor(
+    @Inject(PLATFORM_ID) platformId: Object,
+    public authService: AuthService,
+  ) {
+    this.isBrowser = isPlatformBrowser(platformId);
   }
 
   ngOnInit() {
-    // Solo ejecutamos esto si estamos en el navegador
     if (this.isBrowser) {
       const savedTheme = localStorage.getItem('theme');
-      if (savedTheme === 'dark') {
-        this.setDark();
-      }
+      if (savedTheme === 'dark') this.setDark();
     }
   }
 
@@ -49,5 +48,9 @@ export class Navbar implements OnInit {
       document.documentElement.setAttribute('data-theme', 'light');
       localStorage.setItem('theme', 'light');
     }
+  }
+
+  logout() {
+    this.authService.logout();
   }
 }

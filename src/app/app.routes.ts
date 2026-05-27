@@ -1,55 +1,68 @@
 import { Routes } from '@angular/router';
+import { inject } from '@angular/core';
+import { Router } from '@angular/router';
+import { AuthService } from './auth.service';
+
+export const redirectIfLoggedIn = () => {
+  const auth = inject(AuthService);
+  const router = inject(Router);
+  if (auth.isLoggedIn()) {
+    const tipo = auth.getTipoU();
+    if (tipo === 'P' || tipo === 'M') {
+      router.navigate(['/dashboardprv']);
+    } else {
+      router.navigate(['/']);
+    }
+    return false;
+  }
+  return true;
+};
+
+export const authGuard = (route: any) => {
+  const auth = inject(AuthService);
+  const router = inject(Router);
+  if (auth.isLoggedIn()) {
+    const allowed: string[] = route.data?.allowedTipos ?? [];
+    if (allowed.length === 0) return true;
+    const tipo = auth.getTipoU();
+    if (tipo && allowed.includes(tipo)) return true;
+    if (tipo === 'P' || tipo === 'M') {
+      router.navigate(['/dashboardprv']);
+    } else {
+      router.navigate(['/']);
+    }
+    return false;
+  }
+  router.navigate(['/auth/login'], { queryParams: { returnUrl: route.url.join('/') } });
+  return false;
+};
 
 export const routes: Routes = [
+  { path: '', loadComponent: () => import('./pages/home-page/home-page').then(m => m.HomePage) },
+  { path: 'home', loadComponent: () => import('./pages/home-page/home-page').then(m => m.HomePage) },
+  { path: 'servicios', loadComponent: () => import('./pages/services-page/services-page').then(m => m.ServicesPage) },
+  { path: 'doctores', loadComponent: () => import('./pages/doctors-page/doctors-page').then(m => m.DoctorsPage) },
   {
-    path: '',
-    loadComponent: () => import('../app/pages/home-page/home-page').then(m => m.HomePage)
-  },
-  {
-    path: 'home',
-    loadComponent: () => import('../app/pages/home-page/home-page').then(m => m.HomePage)
-  },
-  {
-    path: 'servicios',
-    loadComponent: () => import('../app/pages/services-page/services-page').then(m => m.ServicesPage)
-  },
-  {
-    path: 'authprv',
-    loadComponent: () => import('../app/pages/authprv-page/authprv-page').then(m => m.AuthprvPage)
-  },
-  {
-    path: 'dashboardprv',
-    loadComponent: () => import('../app/pages/dashboardprv-page/dashboardprv-page').then(m => m.DashboardprvPage),
+    path: 'auth',
+    canActivate: [redirectIfLoggedIn],
     children: [
-      {
-        // Vinculado a "Mis Servicios" en el Sidebar
-        path: 'servicios', 
-        loadComponent: () => import('../app/pages/dashboardprv-page/itemsprv/itemsprv').then(m => m.Itemsprv)
-      },
-       {
-        // Vinculado a "Horarios de Atención"
-        path: 'perfilprv',
-        loadComponent: () => import('../app/pages/dashboardprv-page/perfilprv/perfilprv').then(m => m.Perfilprv)
-      },
-      /*{
-        // Vinculado a "Mis Artículos"
-        path: 'articulos',
-        loadComponent: () => import('../pages/dashboardprv-page/articulosprv/articulosprv').then(m => m.Articulosprv)
-      },
-      {
-        // Vinculado a "Vista Pública" (Perfil del proveedor)
-        path: 'perfil',
-        loadComponent: () => import('../pages/dashboardprv-page/perfilprv/perfilprv').then(m => m.Perfilprv)
-      }, */
-      { 
-        path: '', 
-        redirectTo: 'servicios', 
-        pathMatch: 'full' 
-      }
+      { path: 'login', loadComponent: () => import('./features/auth/login/login.component').then(m => m.LoginComponent) },
+      { path: 'register', loadComponent: () => import('./features/auth/register/register.component').then(m => m.RegisterComponent) },
+      { path: '', redirectTo: 'login', pathMatch: 'full' }
     ]
   },
   {
-    path: ':slug', // Para que funcione apoint.io/dr-eros
-    loadComponent: () => import('../app/pages/perfil-page/perfil-page').then(m => m.PerfilPage)
+    path: 'onboarding',
+    canActivate: [authGuard],
+    loadComponent: () => import('./features/auth/onboarding/onboarding.component').then(m => m.OnboardingComponent)
   },
+  {
+    path: 'dashboardprv',
+    canActivate: [authGuard],
+    data: { allowedTipos: ['P', 'M'] },
+    loadComponent: () => import('./pages/dashboardprv/dashboardprv').then(m => m.DashboardprvPage)
+  },
+  { path: 'authprv', loadComponent: () => import('./pages/authprv-page/authprv-page').then(m => m.AuthprvPage) },
+  { path: 'doctor/:slug', loadComponent: () => import('./pages/doctor-profile-page/doctor-profile-page').then(m => m.DoctorProfilePage) },
+  { path: ':slug', loadComponent: () => import('./pages/perfil-page/perfil-page').then(m => m.PerfilPage) },
 ];

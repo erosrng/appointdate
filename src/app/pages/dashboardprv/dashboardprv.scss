@@ -1,0 +1,19 @@
+.ap-dashboard {
+  min-height: 100vh;
+  background: #f8fafc;
+}
+
+:host-context([data-theme="dark"]) .ap-dashboard {
+  background: #020617;
+}
+
+.ap-dashboard__header {
+  background: #fff;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+:host-context([data-theme="dark"]) .ap-dashboard__header {
+  background: #0b1329;
+}

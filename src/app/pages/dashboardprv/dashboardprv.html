@@ -1,0 +1,79 @@
+<main class="ap-dashboard">
+  <header class="ap-dashboard__header d-flex justify-content-between align-items-center p-3 border-bottom">
+    <h4 class="m-0 fw-bold">Panel Profesional</h4>
+    <div class="d-flex align-items-center gap-2">
+      <span class="text-muted small">{{ authService.userName() || 'Invitado' }}</span>
+      <button mat-stroked-button (click)="logout()" size="small">
+        <mat-icon>logout</mat-icon>
+        Salir
+      </button>
+    </div>
+  </header>
+
+  <div class="container py-4">
+    <div class="row g-3 mb-4" *ngIf="dashboardService.stats() as stats">
+      <div class="col-md-3">
+        <mat-card class="p-3 text-center">
+          <mat-icon color="primary">calendar_month</mat-icon>
+          <h3 class="mt-2 mb-0 fw-bold">{{ stats.totalAppointments }}</h3>
+          <small class="text-muted">Citas totales</small>
+        </mat-card>
+      </div>
+      <div class="col-md-3">
+        <mat-card class="p-3 text-center">
+          <mat-icon color="accent">people</mat-icon>
+          <h3 class="mt-2 mb-0 fw-bold">{{ stats.totalPatients }}</h3>
+          <small class="text-muted">Pacientes</small>
+        </mat-card>
+      </div>
+      <div class="col-md-3">
+        <mat-card class="p-3 text-center">
+          <mat-icon style="color: #22c55e;">payments</mat-icon>
+          <h3 class="mt-2 mb-0 fw-bold">${{ stats.revenue }}</h3>
+          <small class="text-muted">Ingresos</small>
+        </mat-card>
+      </div>
+      <div class="col-md-3">
+        <mat-card class="p-3 text-center">
+          <mat-icon style="color: #f59e0b;">pending</mat-icon>
+          <h3 class="mt-2 mb-0 fw-bold">{{ stats.pendingAppointments }}</h3>
+          <small class="text-muted">Pendientes</small>
+        </mat-card>
+      </div>
+    </div>
+
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>Pr&oacute;ximas Citas</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="table-responsive">
+          <table class="table" *ngIf="dashboardService.appointments() as apps">
+            <thead>
+              <tr>
+                <th>Paciente</th>
+                <th>Fecha</th>
+                <th>Hora</th>
+                <th>Estado</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let app of apps">
+                <td>{{ app.patientName }}</td>
+                <td>{{ app.date }}</td>
+                <td>{{ app.time }}</td>
+                <td>
+                  <span class="badge" [class.bg-success]="app.status === 'confirmed'"
+                        [class.bg-warning]="app.status === 'pending'"
+                        [class.bg-danger]="app.status === 'cancelled'">
+                    {{ app.status }}
+                  </span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</main>

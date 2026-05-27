@@ -9,20 +9,9 @@
       </div>
       <div class="col-md-7 mt-3 mt-md-0">
         <div class="d-flex align-items-center gap-3 mb-2">
-          <h1 class="h2 fw-bold m-0 ap-provider-name">Dr. Alejandro Rangel</h1>
-          <mat-icon class="ap-verify-icon">verified</mat-icon>
+          <h1 class="h2 fw-bold m-0 ap-provider-name">Nuestros Servicios</h1>
         </div>
-        <p class="ap-provider-header__bio">Medicina Interna | Especialista en Diagnóstico Clínico Avanzado</p>
-        <div class="d-flex flex-wrap gap-2">
-          <span class="ap-info-tag"><mat-icon>location_on</mat-icon> Lechería, Venezuela</span>
-          <span class="ap-info-tag"><mat-icon>star</mat-icon> 4.9 (120 reseñas)</span>
-          <span class="ap-info-tag tag-verified"><mat-icon>check_circle</mat-icon> Verificado</span>
-        </div>
-      </div>
-      <div class="col-md-3 text-md-end mt-4 mt-md-0">
-        <button mat-stroked-button class="ap-btn-contact">
-          Contactar profesional
-        </button>
+        <p class="ap-provider-header__bio">Soluciones de salud digital para profesionales y pacientes</p>
       </div>
     </div>
   </div>
@@ -31,11 +20,11 @@
   <section class="container py-5">
     <div class="d-flex justify-content-between align-items-end mb-5">
       <div>
-        <h2 class="fw-bold m-0" style="color: var(--navy-dark)">Servicios disponibles</h2>
-        <p class="text-muted m-0">Selecciona el servicio que deseas agendar hoy.</p>
+        <h2 class="fw-bold m-0">Servicios disponibles</h2>
+        <p class="text-muted m-0">Selecciona el servicio que deseas contratar.</p>
       </div>
       <div class="ap-filter-badge">
-        {{ servicios.length }} servicios encontrados
+        {{ servicios.length }} servicios
       </div>
     </div>
 
@@ -47,7 +36,7 @@
               <span class="ap-category-label">{{ s.category }}</span>
               <span class="ap-price-label">{{ s.price }}</span>
             </div>
-            <h3 class="h5 fw-bold mb-2" style="color: var(--navy-dark)">{{ s.name }}</h3>
+            <h3 class="h5 fw-bold mb-2">{{ s.name }}</h3>
             <p class="text-muted small mb-0">{{ s.description }}</p>
             
             <div class="ap-service-item__details">

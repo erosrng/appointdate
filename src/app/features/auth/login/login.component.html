@@ -1,0 +1,59 @@
+<main class="ap-auth-minimal">
+  <div class="ap-auth-minimal__container">
+    <div class="ap-auth-minimal__header">
+      <a routerLink="/" class="ap-brand">
+        <span class="ap-brand__box">P</span>
+        <span class="ap-brand__text">pillaDoc<span class="ap-brand__dot">.</span></span>
+      </a>
+      <p class="ap-auth-minimal__sub">De <strong>Pillar Doctor</strong> a <strong>PillaDoc</strong> &mdash; acceso a tu panel de salud</p>
+    </div>
+
+    <div class="ap-auth-minimal__card">
+      <div class="ap-alert ap-alert--error" *ngIf="errorMessage()">
+        <mat-icon>error</mat-icon>
+        <span>{{ errorMessage() }}</span>
+      </div>
+
+      <div class="ap-auth-tabs">
+        <button type="button" class="ap-auth-tab" [class.active]="tipo() === 'M'" (click)="tipo.set('M')">
+          <mat-icon>medical_services</mat-icon> M&eacute;dico
+        </button>
+        <button type="button" class="ap-auth-tab" [class.active]="tipo() === 'C'" (click)="tipo.set('C')">
+          <mat-icon>person</mat-icon> Paciente
+        </button>
+      </div>
+
+      <form (ngSubmit)="onLogin()" #loginForm="ngForm">
+        <div class="ap-field">
+          <label class="ap-field__label">Usuario o Correo</label>
+          <input type="text" name="user" placeholder="correo@ejemplo.com" required class="ap-field__input" [class.is-error]="errorMessage()" [ngModel]="user()" (ngModelChange)="user.set($event)" [disabled]="isLoading()">
+        </div>
+
+        <div class="ap-field">
+          <label class="ap-field__label">Contrase&ntilde;a</label>
+          <div class="ap-field__group">
+            <input name="password" placeholder="Ingresa tu contrase&ntilde;a" required class="ap-field__input" [class.is-error]="errorMessage()" [type]="hidePassword() ? 'password' : 'text'" [ngModel]="password()" (ngModelChange)="password.set($event)" [disabled]="isLoading()">
+            <button type="button" class="ap-field__toggle" (click)="hidePassword.set(!hidePassword())" [disabled]="isLoading()">
+              <mat-icon>{{ hidePassword() ? 'visibility_off' : 'visibility' }}</mat-icon>
+            </button>
+          </div>
+        </div>
+
+        <button type="submit" class="ap-btn ap-btn--primary w-100" [disabled]="isLoading() || !user() || !password()">
+          <ng-container *ngIf="!isLoading()">
+            <mat-icon>login</mat-icon>
+            <span>ENTRAR AL PANEL</span>
+          </ng-container>
+          <ng-container *ngIf="isLoading()">
+            <mat-spinner diameter="18" class="me-2"></mat-spinner>
+            <span>INGRESANDO...</span>
+          </ng-container>
+        </button>
+      </form>
+
+      <p class="ap-auth-minimal__footer">
+        &iquest;No tienes cuenta? <a routerLink="/auth/register">Crear cuenta</a>
+      </p>
+    </div>
+  </div>
+</main>

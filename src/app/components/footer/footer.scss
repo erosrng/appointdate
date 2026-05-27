@@ -1,9 +1,5 @@
-$ap-navy: #020617;
-$ap-slate: #94a3b8;
-$ap-primary: #2563eb;
-
 .ap-footer {
-  background-color: $ap-navy;
+  background-color: #020617;
   padding: 60px 0 40px;
   color: white;
   border-top: 1px solid rgba(255, 255, 255, 0.05);
@@ -13,19 +9,19 @@ $ap-primary: #2563eb;
     font-size: 1.5rem;
     letter-spacing: -1px;
     margin-bottom: 10px;
-    span { color: $ap-primary; }
+    span { color: #0A6E6E; }
   }
 
   &__brand-text {
     font-size: 0.85rem;
-    color: $ap-slate;
+    color: #94a3b8;
     line-height: 1.6;
     strong { color: white; }
   }
 
   &__links {
     a {
-      color: $ap-slate;
+      color: #94a3b8;
       text-decoration: none;
       font-size: 0.85rem;
       transition: color 0.3s ease;
@@ -33,13 +29,11 @@ $ap-primary: #2563eb;
     }
   }
 
-  &__social {
-    button { color: $ap-slate; &:hover { color: $ap-primary; } }
-  }
+  &__social button { color: #94a3b8; &:hover { color: #0A6E6E; } }
 
   &__copy {
     font-size: 0.75rem;
-    color: rgba($ap-slate, 0.5);
+    color: rgba(#94a3b8, 0.5);
     font-weight: 500;
   }
 }

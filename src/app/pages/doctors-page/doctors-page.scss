@@ -1,0 +1,199 @@
+:host {
+  --medical-primary: #0A6E6E;
+  --medical-accent: #119999;
+  --medical-light: rgba(10, 110, 110, 0.08);
+}
+
+.ap-doctors-page {
+  min-height: 100vh;
+  background: var(--bg-main, #f8fafc);
+}
+
+:host-context([data-theme="dark"]) .ap-doctors-page {
+  background: #020617;
+}
+
+.ap-doctors-hero {
+  background: var(--bg-card, #fff);
+  border-bottom: 1px solid var(--border-color);
+}
+
+.ap-hero__badge {
+  background-color: var(--medical-light);
+  color: var(--medical-primary);
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 1px;
+  display: inline-block;
+  margin-bottom: 1.5rem;
+  border: 1px solid var(--border-color);
+}
+
+[data-reveal] {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+[data-reveal].visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.ap-filters-card {
+  background: var(--bg-card, #fff);
+  border-radius: 16px;
+  padding: 1.5rem;
+  border: 1px solid var(--border-color, #e2e8f0);
+  box-shadow: 0 4px 12px rgba(0,0,0,.04);
+  margin-top: -2rem;
+  position: relative;
+  z-index: 2;
+}
+
+:host-context([data-theme="dark"]) .ap-filters-card {
+  background: #0b1329;
+}
+
+.ap-label {
+  display: block;
+  font-size: .75rem;
+  font-weight: 700;
+  color: var(--text-muted, #64748b);
+  margin-bottom: .35rem;
+  text-transform: uppercase;
+  letter-spacing: .5px;
+}
+
+.ap-input-group {
+  position: relative;
+}
+
+.ap-input-icon {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 18px;
+  width: 18px;
+  height: 18px;
+  color: var(--text-muted);
+  pointer-events: none;
+}
+
+.ap-input {
+  width: 100%;
+  padding: .7rem 1rem;
+  font-size: .9rem;
+  border-radius: 10px;
+  border: 1.5px solid var(--border-color, #e2e8f0);
+  background: var(--bg-main, #f8fafc);
+  color: var(--text-main, #0f172a);
+  outline: none;
+  transition: all .2s;
+  box-sizing: border-box;
+  &--with-icon { padding-left: 2.4rem; }
+  &:focus {
+    border-color: var(--medical-primary);
+    box-shadow: 0 0 0 3px var(--medical-light);
+  }
+  &:disabled { opacity: .5; cursor: not-allowed; }
+}
+
+select.ap-input {
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%2364748b' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  padding-right: 2rem;
+}
+
+.ap-btn-clear {
+  min-width: 44px !important;
+  border-color: var(--border-color) !important;
+  color: var(--text-muted) !important;
+}
+
+.ap-filter-chip {
+  display: inline-block;
+  padding: 3px 12px;
+  border-radius: 20px;
+  font-size: .75rem;
+  font-weight: 600;
+  background: var(--medical-light);
+  color: var(--medical-primary);
+  margin-right: 6px;
+  margin-bottom: 4px;
+}
+
+.ap-doctor-card {
+  background: var(--bg-card, #fff);
+  border-radius: 16px;
+  overflow: hidden;
+  border: 1px solid var(--border-color, #e2e8f0);
+  transition: all .3s;
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 30px rgba(0,0,0,.1);
+  }
+  &__header {
+    position: relative;
+    height: 180px;
+    overflow: hidden;
+  }
+  &__img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  &__online {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    width: 14px;
+    height: 14px;
+    background: #22c55e;
+    border-radius: 50%;
+    border: 2px solid #fff;
+  }
+  &__body {
+    padding: 1.25rem;
+  }
+  &__pin {
+    font-size: 14px;
+    width: 14px;
+    height: 14px;
+    vertical-align: middle;
+  }
+  &__rating {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: .85rem;
+    font-weight: 700;
+    color: #f59e0b;
+    margin-bottom: 12px;
+    mat-icon { font-size: 16px; width: 16px; height: 16px; }
+  }
+}
+
+:host-context([data-theme="dark"]) .ap-doctor-card {
+  background: #0b1329;
+}
+
+.ap-empty-icon {
+  font-size: 56px;
+  width: 56px;
+  height: 56px;
+  color: var(--text-muted);
+  opacity: .5;
+}
+
+.ap-page-indicator {
+  padding: 8px 20px;
+  background: var(--bg-card);
+  border-radius: 10px;
+  font-size: .9rem;
+  border: 1px solid var(--border-color);
+}

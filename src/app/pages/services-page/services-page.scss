@@ -1,10 +1,4 @@
-@import '../../../variables.scss';
-
-// Variables locales mapeadas a tu paleta global
-$ap-navy-dark: var(--navy-dark);
-$ap-purple: var(--purple-accent);
-$ap-bg-soft: var(--bg-main);
-$ap-slate: #64748b;
+@use '../../../variables.scss' as *;
 
 [data-reveal] {
   opacity: 0;
@@ -17,30 +11,40 @@ $ap-slate: #64748b;
 }
 
 .ap-services-view {
-  background-color: $ap-bg-soft;
+  background-color: var(--bg-main);
   min-height: 100vh;
 }
 
-// Header de Perfil Profesional
 .ap-provider-header {
-  background-color: var(--bg-card); 
+  background-color: var(--bg-card);
   border-bottom: 1px solid var(--border-color);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02);
-  
+
   &__avatar {
     width: 130px;
     height: 130px;
-    border-radius: 28px; // Estilo Squircle
+    border-radius: 28px;
     overflow: hidden;
     border: 4px solid white;
     img { width: 100%; height: 100%; object-fit: cover; }
   }
 
   &__bio {
-    color: $ap-slate;
+    color: #64748b;
     font-size: 1.1rem;
     font-weight: 500;
   }
+}
+
+.ap-provider-name {
+  color: var(--text-main);
+}
+
+.ap-verify-icon {
+  color: #0A6E6E;
+  font-size: 20px;
+  width: 20px;
+  height: 20px;
 }
 
 .ap-info-tag {
@@ -49,16 +53,20 @@ $ap-slate: #64748b;
   gap: 6px;
   font-size: 0.85rem;
   font-weight: 700;
-  color: $ap-slate;
+  color: #64748b;
   background-color: var(--bg-main);
   padding: 6px 12px;
   border-radius: 8px;
-  mat-icon { font-size: 18px; width: 18px; height: 18px; color: $ap-purple; }
-  
-  &.text-success mat-icon { color: #10b981; }
+  mat-icon { font-size: 18px; width: 18px; height: 18px; color: #0A6E6E; }
+  &.tag-verified mat-icon { color: #22c55e; }
 }
 
-// Tarjeta de Servicio (Premium Look)
+.ap-btn-contact {
+  border-color: #0A6E6E !important;
+  color: #0A6E6E !important;
+  font-weight: 700 !important;
+}
+
 .ap-service-item {
   background-color: var(--bg-main);
   border-radius: 24px;
@@ -71,8 +79,8 @@ $ap-slate: #64748b;
 
   &:hover {
     transform: translateY(-10px);
-    box-shadow: 0 25px 50px -12px rgba(139, 92, 246, 0.15) !important;
-    border-color: $ap-purple;
+    box-shadow: 0 25px 50px -12px rgba(10, 110, 110, 0.15) !important;
+    border-color: #0A6E6E;
   }
 
   &__content {
@@ -91,21 +99,20 @@ $ap-slate: #64748b;
       display: flex;
       align-items: center;
       gap: 6px;
-      color: $ap-slate;
+      color: #64748b;
       font-size: 0.8rem;
       font-weight: 700;
-      mat-icon { font-size: 18px; width: 18px; height: 18px; color: var(--navy-medium); }
+      mat-icon { font-size: 18px; width: 18px; height: 18px; color: #0A6E6E; }
     }
   }
 }
 
-// Labels y Badges
 .ap-category-label {
   font-size: 0.65rem;
   font-weight: 800;
   text-transform: uppercase;
-  color: $ap-purple;
-  background: var(--purple-light);
+  color: #0A6E6E;
+  background: rgba(10, 110, 110, 0.08);
   padding: 5px 14px;
   border-radius: 8px;
   letter-spacing: 0.5px;
@@ -113,30 +120,32 @@ $ap-slate: #64748b;
 
 .ap-price-label {
   font-weight: 900;
-  color: $ap-navy-dark;
+  color: var(--navy-dark);
   font-size: 1.25rem;
   &::before { content: '$'; font-size: 0.9rem; margin-right: 2px; }
 }
 
 .ap-filter-badge {
-  background: $ap-navy-dark;
-  color: var(--text-muted);
+  background: #0f172a;
+  color: white;
   padding: 8px 18px;
   border-radius: 12px;
   font-size: 0.85rem;
   font-weight: 700;
-  box-shadow: 0 4px 10px rgba(15, 23, 42, 0.2);
 }
 
-// Botón de agendar
 .btn-agendar {
-  background: linear-gradient(135deg, $ap-purple, #6d28d9) !important;
-  color: #f1f5f9;
+  background: #0A6E6E !important;
+  color: white;
   font-weight: 700 !important;
   border-radius: 14px !important;
   transition: 0.3s !important;
   &:hover {
     transform: scale(1.02);
-    box-shadow: 0 8px 20px rgba(139, 92, 246, 0.3) !important;
+    box-shadow: 0 8px 20px rgba(10, 110, 110, 0.3) !important;
   }
+}
+
+:host-context([data-theme="dark"]) .ap-service-item__details .detail {
+  border-top-color: rgba(255,255,255,0.08);
 }

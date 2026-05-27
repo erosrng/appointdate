@@ -101,7 +101,7 @@ export class AuthprvPage implements AfterViewInit {
 
   traeEstados() {
     this.isLoadingEstados = true;
-    const apiUrl = `${API_URL}estados/estados`; // Ajusta la ruta a tu controlador
+      const apiUrl = `${API_URL}estados`;
 
     this.http.post(apiUrl, {}).subscribe({
       next: (response: any) => {
@@ -136,7 +136,7 @@ export class AuthprvPage implements AfterViewInit {
     
     this.isLoadingCats = true;
     const formData = new FormData();
-    const apiUrl = `${API_URL}portalcli/buscagrupoprv`;
+    const apiUrl = `${API_URL}buscagrupoprv`;
 
     this.http.post(apiUrl, formData).subscribe({
       next: (response: any) => {
@@ -197,7 +197,7 @@ export class AuthprvPage implements AfterViewInit {
     formData.append('user', this.userData.user.trim());
     formData.append('password', this.userData.password);
 
-    const apiUrl = `${API_URL}logincli/logincli`;
+    const apiUrl = `${API_URL}logincli`;
 
     this.http.post(apiUrl, formData).subscribe({
       next: (response: any) => {
@@ -271,7 +271,7 @@ export class AuthprvPage implements AfterViewInit {
       formData.append('grupos[]', grupoId); // Los [] son la clave para PHP
     });
 
-    const apiUrl = `${API_URL}portalcli/guardar_proveedor`; // Nombre sugerido para tu nueva función
+    const apiUrl = `${API_URL}guardar_proveedor`;
 
     this.http.post(apiUrl, formData).subscribe({
       next: (res: any) => {

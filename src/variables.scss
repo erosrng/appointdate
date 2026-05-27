@@ -1,39 +1,44 @@
-// Solo definiciones, nada de CSS real aquí
+// Variables SASS
 $navy-dark: #0f172a;
-$purple-accent: #8b5cf6;
+$medical-primary: #0A6E6E;
 $transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 $sidebar-width: 280px;
 $sidebar-collapsed-width: 85px;
 
 :root {
-  // TEMA CLARO (Default)
-  --bg-main: #f1f5f9;
+  --bg-main: #f8fafc;
   --bg-card: #ffffff;
-  --text-main: #0f172a; // Navy Dark
+  --text-main: #0f172a;
   --text-muted: #64748b;
-  --border-color: rgba(0, 0, 0, 0.05); // Borde sutil claro
+  --border-color: rgba(0, 0, 0, 0.08);
   --navy-dark: #0f172a;
-  --purple-accent: #8b5cf6;
-  --purple-light: #f5f3ff;
+  --medical-primary: #0A6E6E;
+  --medical-accent: #119999;
+  --medical-light: rgba(10, 110, 110, 0.08);
 
   --swal-bg-light: #ffffff;
-  --swal-bg-dark: #1e293b; // Navy Corporativo
+  --swal-bg-dark: #1e293b;
   --swal-text-light: #1e293b;
   --swal-text-dark: #f8fafc;
   --swal-border-dark: #334155;
+
+  --purple-accent: var(--medical-primary);
+  --purple-light: var(--medical-light);
 }
 
 [data-theme='dark'] {
-  // TEMA OSCURO
-  --bg-main: #020617;   
-  --bg-card: #0f172a;   // Tus cards serán de este Navy
-  --text-main: #f1f5f9; 
+  --bg-main: #020617;
+  --bg-card: #0b1329;
+  --text-main: #f1f5f9;
   --text-muted: #94a3b8;
-  --border-color: rgba(255, 255, 255, 0.1); // Borde sutil oscuro
-  --navy-dark: #1e293b; 
-  --purple-accent: #a78bfa; // Un morado más vivo para resaltar
-  --purple-light: rgba(139, 92, 246, 0.1);
+  --border-color: rgba(255, 255, 255, 0.08);
+  --navy-dark: #1e293b;
+  --medical-primary: #14b8b8;
+  --medical-accent: #2dd4bf;
+  --medical-light: rgba(10, 110, 110, 0.15);
+
+  --purple-accent: var(--medical-primary);
+  --purple-light: var(--medical-light);
 }
 
-// Definición de variables SASS
 $transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);

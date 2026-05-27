@@ -1,0 +1,117 @@
+<main class="ap-auth-minimal">
+  <div class="ap-auth-minimal__container ap-auth-minimal__container--wide">
+    <div class="ap-auth-minimal__header">
+      <a routerLink="/" class="ap-brand">
+        <span class="ap-brand__box">P</span>
+        <span class="ap-brand__text">pillaDoc<span class="ap-brand__dot">.</span></span>
+      </a>
+      <p class="ap-auth-minimal__sub"><strong>PillaDoc</strong> de <strong>Pillar Doctor</strong> &mdash; Únete a la red de salud digital</p>
+    </div>
+
+    <div class="ap-auth-minimal__card">
+      <div class="ap-auth-tabs">
+        <button type="button" class="ap-auth-tab" [class.active]="tipo() === 'M'" (click)="tipo.set('M')">
+          <mat-icon>medical_services</mat-icon> Soy M&eacute;dico
+        </button>
+        <button type="button" class="ap-auth-tab" [class.active]="tipo() === 'C'" (click)="tipo.set('C')">
+          <mat-icon>person</mat-icon> Soy Paciente
+        </button>
+      </div>
+
+      <form (ngSubmit)="onRegister()" #registerForm="ngForm">
+        <div class="row g-2">
+          <div class="col-4">
+            <div class="ap-field">
+              <label class="ap-field__label">Tipo ID</label>
+              <select name="idType" class="ap-field__input" [ngModel]="idType()" (ngModelChange)="idType.set($event)">
+                <option *ngFor="let t of tipoDocumento" [value]="t">{{ t }}</option>
+              </select>
+            </div>
+          </div>
+          <div class="col-8">
+            <div class="ap-field">
+              <label class="ap-field__label">RIF / C&eacute;dula</label>
+              <input type="text" name="rif" class="ap-field__input" placeholder="J-12345678-9"
+                     [ngModel]="rif()" (ngModelChange)="rif.set($event)">
+            </div>
+          </div>
+        </div>
+
+        <div class="ap-field">
+          <label class="ap-field__label">Nombre Fiscal o Comercial</label>
+          <input type="text" name="name" class="ap-field__input"
+                 [ngModel]="name()" (ngModelChange)="name.set($event)" required>
+        </div>
+
+        <div class="row g-2">
+          <div class="col-4">
+            <div class="ap-field">
+              <label class="ap-field__label">Prefijo</label>
+              <select name="phonePrefix" class="ap-field__input" [ngModel]="phonePrefix()" (ngModelChange)="phonePrefix.set($event)">
+                <option *ngFor="let p of prefijos" [value]="p">{{ p }}</option>
+              </select>
+            </div>
+          </div>
+          <div class="col-8">
+            <div class="ap-field">
+              <label class="ap-field__label">Tel&eacute;fono</label>
+              <input type="text" name="phoneNumber" class="ap-field__input"
+                     [ngModel]="phoneNumber()" (ngModelChange)="phoneNumber.set($event)">
+            </div>
+          </div>
+        </div>
+
+        <div class="ap-field">
+          <label class="ap-field__label">ID de Usuario</label>
+          <input type="text" name="username" class="ap-field__input"
+                 [ngModel]="username()" (ngModelChange)="username.set($event)" required>
+        </div>
+
+        <div class="ap-field">
+          <label class="ap-field__label">Correo electr&oacute;nico</label>
+          <input type="email" name="email" class="ap-field__input"
+                 [ngModel]="email()" (ngModelChange)="email.set($event)" required>
+        </div>
+
+        <div class="row g-2">
+          <div class="col-6">
+            <div class="ap-field">
+              <label class="ap-field__label">Contrase&ntilde;a</label>
+              <div class="ap-field__group">
+                <input name="password" class="ap-field__input"
+                       [type]="hidePassword() ? 'password' : 'text'"
+                       [ngModel]="password()" (ngModelChange)="password.set($event)" required>
+              </div>
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="ap-field">
+              <label class="ap-field__label">Confirmar</label>
+              <div class="ap-field__group">
+                <input name="confirmPassword" class="ap-field__input"
+                       [type]="hidePassword() ? 'password' : 'text'"
+                       [ngModel]="confirmPassword()" (ngModelChange)="confirmPassword.set($event)" required>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <button type="submit" class="ap-btn ap-btn--primary w-100 mt-3"
+                [disabled]="isLoading() || !name() || !email() || !password() || !confirmPassword()">
+          <ng-container *ngIf="!isLoading()">
+            <mat-icon>how_to_reg</mat-icon>
+            CREAR CUENTA PROFESIONAL
+          </ng-container>
+          <ng-container *ngIf="isLoading()">
+            <mat-spinner diameter="18" class="me-2"></mat-spinner>
+            <span>PROCESANDO REGISTRO...</span>
+          </ng-container>
+        </button>
+      </form>
+
+      <p class="ap-auth-minimal__footer">
+        &iquest;Ya tienes cuenta? <a routerLink="/auth/login">Inicia sesi&oacute;n</a>
+      </p>
+    </div>
+  </div>
+</main>

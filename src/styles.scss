@@ -3,12 +3,12 @@
 
 // 2. BOOTSTRAP (Orden estricto de importación para evitar "Undefined mixin")
 @use "bootstrap/scss/bootstrap";
-// 3. FUENTE MODERNA
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap');
-@import "@angular/material/prebuilt-themes/indigo-pink.css";
+// 3. FUENTE MODERNA - System font fallback (offline build)
+$font-family-sans-serif: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
 
-// ---styles.scss---
-@import './variables.scss'; // Asegúrate de importar tus variables aquí
+// 4. VARIABLES GLOBALES (Debe ir antes de cualquier @import)
+@use './variables.scss' as *;
+@import "@angular/material/prebuilt-themes/indigo-pink.css";
 
 // 1. FORZADO GLOBAL DE FONDO Y TEXTO BASE
 [data-theme='dark'] {
@@ -57,7 +57,7 @@
   // Tooltips
   .mat-mdc-tooltip {
     background-color: var(--navy-dark) !important;
-    color: var(--purple-accent) !important;
+    color: var(--medical-primary) !important;
     backdrop-filter: blur(4px);
     border: 1px solid rgba(255,255,255,0.1);
   }
@@ -74,7 +74,7 @@
     // Prefijos y Sufijos de iconos
     .mat-mdc-form-field-icon-prefix,
     .mat-mdc-form-field-icon-suffix {
-      color: var(--purple-accent) !important;
+      color: var(--medical-primary) !important;
     }
   }
 
@@ -97,13 +97,13 @@
 
   // 2. BOTÓN "NUEVO ITEM" Y OTROS (Si quedan blancos)
   .btn-primary-solid {
-    background-color: var(--purple-accent) !important;
+    background-color: var(--medical-primary) !important;
     color: white !important;
     
     mat-icon { color: white !important; }
 
     &:hover {
-      background-color: #7c3aed !important; // Un poco más oscuro al pasar el mouse
+      background-color: #085555 !important;
     }
   }
 
@@ -160,7 +160,7 @@
     border: 1px dashed #334155 !important; // Borde sutil
     
     .text-primary {
-      color: var(--purple-accent) !important; // Asegura que el icono de reloj resalte
+      color: var(--medical-primary) !important;
     }
   }
 
@@ -221,7 +221,7 @@
 
 /* --- FIX PARA MAT-SORT ICON (FLECHAS) --- */
 ::ng-deep .mat-sort-header-arrow {
-  color: var(--purple-accent) !important; // Hace que la flecha de ordenamiento se vea
+  color: var(--medical-primary) !important;
 }
 
 // Estilo Base (Modo Claro por defecto)
@@ -254,7 +254,7 @@
 
 /* Botones Personalizados para que coincidan con tu UI */
 .swal2-confirm {
-  background-color: #059669 !important; // Esmeralda corporativo
+  background-color: #0A6E6E !important;
   border-radius: 50px !important;
   padding: 0.6rem 2rem !important;
   font-weight: 600 !important;
@@ -309,7 +309,7 @@
     &:hover {
       background-color: var(--ap-primary-hover) !important;
       transform: translateY(-1px);
-      box-shadow: 0 4px 12px rgba(109, 40, 217, 0.25) !important;
+      box-shadow: 0 4px 12px rgba(10, 110, 110, 0.25) !important;
     }
 
     &:active {

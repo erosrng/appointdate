@@ -8,13 +8,13 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { API_URL } from '../../app.config';
 
 @Component({
-  selector: 'app-perfil-page',
+  selector: 'app-doctor-profile-page',
   standalone: true,
   imports: [CommonModule, RouterModule, MatButtonModule, MatIconModule, MatProgressSpinnerModule],
-  templateUrl: './perfil-page.html',
-  styleUrl: './perfil-page.scss',
+  templateUrl: './doctor-profile-page.html',
+  styleUrl: './doctor-profile-page.scss',
 })
-export class PerfilPage implements OnInit {
+export class DoctorProfilePage implements OnInit {
   profile: any = null;
   isLoading = true;
   slug = '';

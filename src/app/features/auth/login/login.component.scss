@@ -1,0 +1,70 @@
+:host {
+  --bg-main: #f8fafc;
+  --bg-card: #ffffff;
+  --text-main: #0f172a;
+  --text-muted: #64748b;
+  --border-color: #e2e8f0;
+  --medical-primary: #0A6E6E;
+  --medical-secondary: #0f172a;
+  --medical-accent: #119999;
+  --medical-light: #e6f4f4;
+  --ap-primary: var(--medical-primary);
+  --ap-primary-hover: #085555;
+}
+
+:host-context([data-theme="dark"]) {
+  --bg-main: #020617;
+  --bg-card: #0b1329;
+  --text-main: #f1f5f9;
+  --text-muted: #94a3b8;
+  --border-color: rgba(255, 255, 255, .08);
+  --medical-primary: #14b8b8;
+  --medical-accent: #2dd4bf;
+  --medical-light: rgba(10, 110, 110, .15);
+  --ap-primary: var(--medical-primary);
+  --ap-primary-hover: #2dd4bf;
+}
+
+.ap-auth-minimal {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 1rem;
+  background: var(--bg-main);
+}
+.ap-auth-minimal__container { width: 100%; max-width: 440px; }
+.ap-auth-minimal__header { text-align: center; margin-bottom: 2rem; }
+.ap-auth-minimal__sub { color: var(--text-muted); font-size: .875rem; margin-top: .5rem; }
+.ap-brand { text-decoration: none; display: inline-flex; align-items: center; gap: .5rem; }
+.ap-brand__box { width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; background: var(--medical-primary); color: #fff; font-weight: 900; font-size: 1.25rem; border-radius: 10px; flex-shrink: 0; }
+.ap-brand__text { font-weight: 900; font-size: 1.6rem; color: var(--text-main); letter-spacing: -.5px; }
+.ap-brand__dot { color: var(--medical-primary); }
+.ap-auth-minimal__card { background: var(--bg-card); border-radius: 16px; padding: 2rem; box-shadow: 0 10px 40px rgba(0,0,0,0.08); border: 1px solid var(--border-color); }
+.ap-auth-tabs { display: flex; margin-bottom: 1.5rem; border-radius: 10px; overflow: hidden; border: 1px solid var(--border-color); background: var(--bg-main); }
+.ap-auth-tab { flex: 1; display: flex; align-items: center; justify-content: center; gap: .4rem; padding: .7rem; font-size: .85rem; font-weight: 600; border: none; background: transparent; color: var(--text-muted); cursor: pointer; transition: all .2s; }
+.ap-auth-tab mat-icon { font-size: 18px; width: 18px; height: 18px; }
+.ap-auth-tab.active { background: var(--medical-primary); color: #fff; }
+.ap-auth-tab:not(.active):hover { background: var(--medical-light); }
+.ap-field { margin-bottom: 1rem; }
+.ap-field__label { display: block; font-size: .8rem; font-weight: 600; color: var(--text-muted); margin-bottom: .35rem; }
+.ap-field__input { width: 100%; padding: .75rem 1rem; font-size: .95rem; border-radius: 10px; border: 1.5px solid var(--border-color); background: var(--bg-main); color: var(--text-main); transition: border-color .2s; outline: none; box-sizing: border-box; }
+.ap-field__input:focus { border-color: var(--medical-primary); box-shadow: 0 0 0 3px var(--medical-light); }
+.ap-field__input.is-error { border-color: #ef4444; }
+.ap-field__input:disabled { opacity: .6; cursor: not-allowed; }
+.ap-field__group { position: relative; }
+.ap-field__group .ap-field__input { padding-right: 3rem; }
+.ap-field__toggle { position: absolute; right: .5rem; top: 50%; transform: translateY(-50%); background: none; border: none; color: var(--text-muted); cursor: pointer; display: flex; align-items: center; justify-content: center; padding: .3rem; }
+.ap-field__toggle mat-icon { font-size: 20px; }
+.ap-btn { display: inline-flex; align-items: center; justify-content: center; gap: .5rem; padding: .85rem 1.5rem; font-size: .9rem; font-weight: 700; border-radius: 10px; border: none; cursor: pointer; transition: all .2s; letter-spacing: .3px; }
+.ap-btn:disabled { opacity: .5; cursor: not-allowed; }
+.ap-btn mat-icon { font-size: 20px; width: 20px; height: 20px; }
+.ap-btn--primary { background: var(--medical-primary); color: #fff; }
+.ap-btn--primary:hover:not(:disabled) { background: var(--ap-primary-hover); transform: translateY(-1px); box-shadow: 0 4px 12px rgba(10,110,110,0.3); }
+.ap-alert { display: flex; align-items: center; gap: .5rem; padding: .75rem 1rem; border-radius: 10px; font-size: .85rem; font-weight: 600; margin-bottom: 1rem; }
+.ap-alert--error { background: #fef2f2; color: #991b1b; }
+.ap-alert--error mat-icon { color: #dc2626; font-size: 20px; width: 20px; height: 20px; }
+:host-context([data-theme="dark"]) .ap-alert--error { background: rgba(239,68,68,0.15); color: #fca5a5; }
+:host-context([data-theme="dark"]) .ap-alert--error mat-icon { color: #f87171; }
+.ap-auth-minimal__footer { text-align: center; margin-top: 1.5rem; font-size: .85rem; color: var(--text-muted); }
+.ap-auth-minimal__footer a { color: var(--medical-primary); font-weight: 700; text-decoration: none; }

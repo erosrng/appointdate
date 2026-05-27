@@ -4,7 +4,7 @@
   </div>
 
   <ng-container *ngIf="!isLoading && profile">
-    <div class="ap-perfil__hero" [style.--user-color]="profile.color_theme || '#0A6E6E'">
+    <div class="ap-perfil__hero">
       <div class="ap-perfil__banner" [style.background-image]="'url(' + (profile.banner || 'https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&q=80&w=1200') + ')'">
         <div class="container">
           <div class="ap-perfil__info">

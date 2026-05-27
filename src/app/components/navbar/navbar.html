@@ -1,9 +1,9 @@
 <nav class="ap-navbar shadow-sm">
   <div class="container d-flex align-items-center justify-content-between">
-    
+
     <div class="ap-navbar__brand" routerLink="/">
-      <span class="ap-navbar__logo-box">A</span>
-      <span class="ap-navbar__logo-text">point<span>.</span></span>
+      <span class="ap-navbar__logo-box">P</span>
+      <span class="ap-navbar__logo-text">pillaDoc<span>.</span></span>
     </div>
 
     <ul class="ap-navbar__nav d-none d-lg-flex list-unstyled m-0">
@@ -14,25 +14,35 @@
         <a routerLink="/servicios" routerLinkActive="ap-navbar__link--active" class="ap-navbar__link">Servicios</a>
       </li>
       <li class="ap-navbar__item">
-        <a routerLink="/authprv" routerLinkActive="ap-navbar__link--active" class="ap-navbar__link">Proveedores</a>
+        <a routerLink="/doctores" routerLinkActive="ap-navbar__link--active" class="ap-navbar__link">Doctores</a>
       </li>
       <li class="ap-navbar__item">
-        <a href="#" class="ap-navbar__link">Precios</a>
+        <a routerLink="/authprv" routerLinkActive="ap-navbar__link--active" class="ap-navbar__link">Proveedores</a>
       </li>
     </ul>
 
     <div class="ap-navbar__actions d-flex align-items-center gap-2">
-      <button mat-icon-button (click)="toggleTheme()" class="text-white me-2" matTooltip="Cambiar tema">
+      <button mat-icon-button (click)="toggleTheme()" matTooltip="Cambiar tema" class="ap-navbar__icon-btn">
         <mat-icon>{{ isDarkMode ? 'light_mode' : 'dark_mode' }}</mat-icon>
       </button>
 
-      <button mat-button class="ap-navbar__btn-login" routerLink="/login">Entrar</button>
-      
-      <button mat-flat-button class="ap-navbar__btn-signup shadow-sm">
-        Empezar gratis
-      </button>
-      
-      <button mat-icon-button class="d-lg-none text-white" aria-label="Menu">
+      <ng-container *ngIf="!authService.isLoggedInSignal(); else loggedIn">
+        <button mat-button class="ap-navbar__btn-login" routerLink="/auth/login">Entrar</button>
+        <button mat-flat-button class="ap-navbar__btn-signup shadow-sm" routerLink="/auth/register">Registrarse</button>
+      </ng-container>
+
+      <ng-template #loggedIn>
+        <span class="text-white small me-2">{{ authService.userName() }}</span>
+        <button mat-button class="ap-navbar__btn-login" routerLink="/dashboardprv">
+          <mat-icon>dashboard</mat-icon>
+          <span class="d-none d-md-inline ms-1">Panel</span>
+        </button>
+        <button mat-icon-button class="ap-navbar__icon-btn" (click)="logout()" matTooltip="Cerrar sesi&oacute;n">
+          <mat-icon>logout</mat-icon>
+        </button>
+      </ng-template>
+
+      <button mat-icon-button class="d-lg-none ap-navbar__icon-btn" aria-label="Menu">
         <mat-icon>menu</mat-icon>
       </button>
     </div>

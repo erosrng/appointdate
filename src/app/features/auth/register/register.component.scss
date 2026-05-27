@@ -1,0 +1,9 @@
+@use '../login/login.component.scss';
+
+:host {
+  display: block;
+}
+
+.ap-auth-minimal__container--wide {
+  max-width: 520px;
+}

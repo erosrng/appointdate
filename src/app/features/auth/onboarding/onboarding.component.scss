@@ -1,0 +1,15 @@
+:host {
+  display: block;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg-main);
+}
+
+.ap-onboarding__icon {
+  font-size: 64px;
+  width: 64px;
+  height: 64px;
+  color: #0A6E6E;
+}

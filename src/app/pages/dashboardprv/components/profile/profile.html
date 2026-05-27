@@ -1,0 +1,54 @@
+<div class="container py-4">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="m-0 fw-bold">Mi Perfil Profesional</h2>
+    <button mat-stroked-button (click)="toggleEdit()">
+      <mat-icon>{{ editing ? 'close' : 'edit' }}</mat-icon>
+      {{ editing ? 'Cancelar' : 'Editar perfil' }}
+    </button>
+  </div>
+
+  <mat-card class="shadow-sm" *ngIf="profileService.profile() as prof">
+    <mat-card-content>
+      <div class="row g-4">
+        <div class="col-md-4 text-center">
+          <img [src]="prof.photoUrl"
+               class="rounded-circle img-fluid mb-3"
+               style="width: 180px; height: 180px; object-fit: cover;"
+               alt="Foto de perfil">
+        </div>
+        <div class="col-md-8">
+          <ng-container *ngIf="!editing; else editForm">
+            <h3>{{ prof.name }}</h3>
+            <p class="text-muted mb-1">{{ prof.specialty }}</p>
+            <p><mat-icon class="me-1">star</mat-icon> {{ prof.rating }} ({{ prof.totalReviews }} reseñas)</p>
+            <p><mat-icon class="me-1">location_on</mat-icon> {{ prof.location }}</p>
+            <p><mat-icon class="me-1">email</mat-icon> {{ prof.email }}</p>
+            <p><mat-icon class="me-1">phone</mat-icon> {{ prof.phone }}</p>
+            <p>{{ prof.description }}</p>
+          </ng-container>
+          <ng-template #editForm>
+            <mat-form-field appearance="outline" class="w-100 mb-2">
+              <mat-label>Nombre</mat-label>
+              <input matInput [(ngModel)]="prof.name" name="name">
+            </mat-form-field>
+            <mat-form-field appearance="outline" class="w-100 mb-2">
+              <mat-label>Especialidad</mat-label>
+              <input matInput [(ngModel)]="prof.specialty" name="specialty">
+            </mat-form-field>
+            <mat-form-field appearance="outline" class="w-100 mb-2">
+              <mat-label>Email</mat-label>
+              <input matInput [(ngModel)]="prof.email" name="email" type="email">
+            </mat-form-field>
+            <mat-form-field appearance="outline" class="w-100 mb-2">
+              <mat-label>Teléfono</mat-label>
+              <input matInput [(ngModel)]="prof.phone" name="phone">
+            </mat-form-field>
+            <button mat-flat-button color="primary" (click)="saveProfile()">
+              Guardar cambios
+            </button>
+          </ng-template>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>

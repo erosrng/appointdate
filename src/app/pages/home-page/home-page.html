@@ -6,47 +6,65 @@
           <header class="ap-hero__header">
             <span class="ap-hero__badge">Tecnología de Vanguardia 2026</span>
             <h1 class="ap-hero__title">
-              Tu tiempo es oro, gestiona tus citas de 
-              <span class="ap-hero__title--gradient">forma inteligente.</span>
+              Tu salud merece lo mejor,
+              <span class="ap-hero__title--gradient">agenda con los mejores.</span>
             </h1>
             <p class="ap-hero__lead">
-              La infraestructura digital #1 de Venezuela. Con <strong>Apoint</strong>, conecta con profesionales, automatiza tus pagos y olvídate de las esperas.
+              La plataforma #1 de Venezuela para conectar pacientes con especialistas verificados.
+              Reserva, gestiona y olvídate de las esperas con <strong>PillaDoc</strong>.
             </p>
-            <div class="ap-hero__actions d-flex gap-3 mt-4">
-              <button mat-flat-button color="primary" class="ap-hero__btn-lg">Suscríbete ahora</button>
-              <button mat-stroked-button class="ap-hero__btn-lg">Explorar Servicios</button>
+            <div class="ap-hero__actions d-flex flex-wrap gap-3 mt-4">
+              <a mat-flat-button color="primary" class="ap-hero__btn-lg" routerLink="/doctores">
+                <mat-icon>search</mat-icon> Buscar especialista
+              </a>
+              <a mat-stroked-button class="ap-hero__btn-lg ap-hero__btn-outline" routerLink="/auth/register">
+                <mat-icon>person_add</mat-icon> Crear cuenta gratis
+              </a>
+            </div>
+            <div class="ap-hero__stats d-flex gap-4 mt-5">
+              <div>
+                <span class="ap-hero__stat-num">+1.200</span>
+                <span class="ap-hero__stat-label">Especialistas</span>
+              </div>
+              <div>
+                <span class="ap-hero__stat-num">+15.000</span>
+                <span class="ap-hero__stat-label">Citas gestionadas</span>
+              </div>
+              <div>
+                <span class="ap-hero__stat-num">4.9</span>
+                <span class="ap-hero__stat-label">Valoración media</span>
+              </div>
             </div>
           </header>
         </div>
-        
+
         <div class="col-lg-6 mt-5 mt-lg-0" data-reveal>
           <div class="ap-hero__visual-stack">
             <div class="ap-hero__bg-image shadow-lg">
-              <img src="https://images.unsplash.com/photo-1557804506-669a67965ba0?auto=format&fit=crop&q=80&w=800" alt="Networking">
+              <img src="https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&q=80&w=800" alt="Equipo médico">
             </div>
-            
             <div class="ap-hero__main-card shadow-2xl">
-               <div class="ap-hero__card-nav">
-                 <div class="ap-hero__dots"><span></span><span></span><span></span></div>
-               </div>
-               <div class="p-4">
-                  <div class="d-flex align-items-center gap-3 mb-4">
-                    <div class="ap-hero__avatar">
-                      <img src="https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?auto=format&fit=crop&q=80&w=150" alt="Doc">
-                    </div>
-                    <div>
-                      <h6 class="m-0 fw-bold">Dr. Alejandro Rangel</h6>
-                      <small class="text-success fw-bold">● Disponible ahora</small>
-                    </div>
+              <div class="ap-hero__card-nav">
+                <div class="ap-hero__dots"><span></span><span></span><span></span></div>
+              </div>
+              <div class="p-4">
+                <div class="d-flex align-items-center gap-3 mb-4">
+                  <div class="ap-hero__avatar">
+                    <img src="https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?auto=format&fit=crop&q=80&w=150" alt="Doctor">
                   </div>
-                  <div class="ap-hero__grid-calendar">
-                    <div class="ap-hero__day-slot active">10:30 AM</div>
-                    <div class="ap-hero__day-slot">11:00 AM</div>
-                    <div class="ap-hero__day-slot">01:30 PM</div>
-                    <div class="ap-hero__day-slot">03:00 PM</div>
+                  <div>
+                    <h6 class="m-0 fw-bold">Dr. Alejandro Rangel</h6>
+                    <small class="text-success fw-bold">● Disponible ahora</small>
                   </div>
-                  <button mat-flat-button color="primary" class="w-100 mt-4">Confirmar Reserva</button>
-               </div>
+                </div>
+                <div class="ap-hero__grid-calendar">
+                  <div class="ap-hero__day-slot active">10:30 AM</div>
+                  <div class="ap-hero__day-slot">11:00 AM</div>
+                  <div class="ap-hero__day-slot">01:30 PM</div>
+                  <div class="ap-hero__day-slot">03:00 PM</div>
+                </div>
+                <button mat-flat-button color="primary" class="w-100 mt-4">Reservar cita</button>
+              </div>
             </div>
           </div>
         </div>
@@ -56,6 +74,11 @@
 
   <section class="ap-benefits py-5">
     <div class="container">
+      <div class="text-center mb-5" data-reveal>
+        <h2 class="ap-section__subtitle">Beneficios</h2>
+        <h3 class="ap-section__title">¿Por qué PillaDoc?</h3>
+        <p class="text-muted fs-5">La plataforma que transforma la gestión de tu consulta médica</p>
+      </div>
       <div class="row g-4">
         <article class="col-md-3" data-reveal *ngFor="let item of benefits">
           <div class="ap-benefit-card">
@@ -68,26 +91,75 @@
     </div>
   </section>
 
+  <section class="ap-doctors-featured py-5">
+    <div class="container">
+      <div class="text-center mb-5" data-reveal>
+        <h2 class="ap-section__subtitle">Especialistas</h2>
+        <h3 class="ap-section__title">Doctores destacados</h3>
+        <p class="text-muted fs-5">Los profesionales mejor valorados de nuestra red</p>
+      </div>
+
+      <div *ngIf="loadingDoctors()" class="text-center py-4">
+        <mat-spinner diameter="36"></mat-spinner>
+      </div>
+
+      <div class="row g-4" *ngIf="!loadingDoctors()">
+        <div class="col-lg-4 col-md-6" *ngFor="let doc of featuredDoctors()">
+          <div class="ap-doctor-card" data-reveal>
+            <div class="ap-doctor-card__header">
+              <img [src]="doc.foto || 'https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?auto=format&fit=crop&q=80&w=300'" [alt]="doc.nombre" class="ap-doctor-card__img">
+              <div class="ap-doctor-card__online" *ngIf="doc.active"></div>
+            </div>
+            <div class="ap-doctor-card__body">
+              <h5 class="fw-bold mb-1">{{ doc.nombre }}</h5>
+              <p class="text-muted small mb-2">{{ doc.gr_desc || doc.especialidad }}</p>
+              <p class="small mb-3" *ngIf="doc.direc2">
+                <mat-icon class="ap-doctor-card__pin">location_on</mat-icon>
+                {{ doc.direc2 }}{{ doc.direc3 ? ', ' + doc.direc3 : '' }}
+              </p>
+              <a mat-stroked-button [routerLink]="'/doctor/' + (doc.slug || doc.proveed)" class="w-100">
+                Ver perfil
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="text-center mt-4" data-reveal>
+        <a mat-flat-button color="primary" routerLink="/doctores" class="ap-hero__btn-lg">
+          Ver todos los especialistas <mat-icon>arrow_forward</mat-icon>
+        </a>
+      </div>
+    </div>
+  </section>
+
   <section class="ap-clients-dark py-5 my-5">
     <div class="container py-5">
       <div class="row align-items-center g-5">
         <div class="col-lg-5" data-reveal>
-          <h2 class="ap-section__subtitle text-primary">Para Clientes</h2>
+          <h2 class="ap-section__subtitle" style="color: #0A6E6E;">Para Pacientes</h2>
           <h3 class="ap-section__title text-white">Encuentra y reserva en segundos</h3>
-          <p class="text-white-50 mb-5">Accede a la red de servicios más confiable del país. Filtra por valoración, ubicación y reserva sin complicaciones.</p>
-          
+          <p class="text-white-50 mb-5">Accede a la red de especialistas más confiable del país. Filtra por ubicación, especialidad y reserva sin complicaciones.</p>
+
           <div class="ap-feature-dark mb-4">
             <mat-icon>verified</mat-icon>
             <div>
-              <h6 class="text-white m-0">Seguridad Garantizada</h6>
-              <small class="text-white-50">Pagos protegidos y profesionales verificados.</small>
+              <h6 class="text-white m-0">Profesionales verificados</h6>
+              <small class="text-white-50">Todos los doctores pasan por un proceso de validación.</small>
+            </div>
+          </div>
+          <div class="ap-feature-dark mb-4">
+            <mat-icon>history</mat-icon>
+            <div>
+              <h6 class="text-white m-0">Historial centralizado</h6>
+              <small class="text-white-50">Tus citas y recetas siempre disponibles en un solo lugar.</small>
             </div>
           </div>
           <div class="ap-feature-dark">
-            <mat-icon>history</mat-icon>
+            <mat-icon>calendar_month</mat-icon>
             <div>
-              <h6 class="text-white m-0">Historial Centralizado</h6>
-              <small class="text-white-50">Gestiona todas tus citas desde un solo panel.</small>
+              <h6 class="text-white m-0">Reserva express</h6>
+              <small class="text-white-50">Agenda en menos de 30 segundos, sin llamadas ni esperas.</small>
             </div>
           </div>
         </div>
@@ -96,10 +168,10 @@
           <div class="row g-3">
             <div class="col-6 col-md-4" *ngFor="let prof of [1,2,3,4,5,6]; let i = index">
               <div class="ap-prof-card">
-                <img [src]="'https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?auto=format&fit=crop&q=80=60&w=300'" class="ap-prof-card__img">
+                <img [src]="'https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?auto=format&fit=crop&q=80&w=300'" class="ap-prof-card__img" alt="Especialista">
                 <div class="ap-prof-card__info">
                   <span class="ap-prof-card__tag">Destacado</span>
-                  <p class="m-0 fw-bold">Especialista Apoint</p>
+                  <p class="m-0 fw-bold">Especialista PillaDoc</p>
                 </div>
               </div>
             </div>
@@ -118,26 +190,26 @@
         <span>MedSoft</span>
         <span>SaoConsulting</span>
         <span>LegalCitas</span>
-        <span>ApointPro</span>
+        <span>PillaDocPro</span>
       </div>
     </div>
   </section>
 
-  <section class="ap-landing-promo py-5 mb-5">
+  <section class="ap-cta-final py-5">
     <div class="container">
-      <div class="row align-items-center g-5">
-        <div class="col-lg-6" data-reveal>
-          <div class="ap-promo-visual">
-            <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80&w=800" class="img-fluid rounded-4 shadow-2xl" alt="Dashboard">
+      <div class="ap-cta-final__card" data-reveal>
+        <div class="row align-items-center">
+          <div class="col-lg-7 text-center text-lg-start">
+            <h2 class="text-white fw-black mb-2">¿Eres profesional de la salud?</h2>
+            <p class="text-white-50 fs-5 mb-0">Únete a PillaDoc y lleva tu consulta al siguiente nivel. Gestión inteligente, más pacientes, menos trabajo administrativo.</p>
           </div>
-        </div>
-        <div class="col-lg-6" data-reveal>
-          <h2 class="ap-section__subtitle">Tu propia página de aterrizaje</h2>
-          <h3 class="ap-section__title">Tu identidad corporativa profesional</h3>
-          <p class="ap-hero__lead">Adaptada a la imagen corporativa de tu negocio. Ofrece a tus clientes una experiencia sofisticada, profesional y moderna en el mercado actual.</p>
-          <button mat-flat-button color="primary" class="ap-hero__btn-lg mt-3">Empezar hoy</button>
+          <div class="col-lg-5 text-center text-lg-end mt-4 mt-lg-0">
+            <a mat-flat-button class="ap-cta-final__btn" routerLink="/auth/register">
+              Crear cuenta profesional <mat-icon>arrow_forward</mat-icon>
+            </a>
+          </div>
         </div>
       </div>
     </div>
-  </section> 
+  </section>
 </main>
